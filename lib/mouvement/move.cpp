@@ -9,7 +9,7 @@ long int total_Steps_L = 0;
 //float x_position= 1355 ; // 1= 1452 2=1355 3=1260 4=1170
 
 # ifdef PAMI_1
-float x_position = 100;
+float x_position = 0;
 float teta_actuelle = 0;
 # endif
 # ifdef PAMI_2
@@ -121,7 +121,7 @@ void go_to(float go_x, float go_y){
   float distance = sqrt(to_do_x*to_do_x + to_do_y*to_do_y );
   //float teta_calcule = atan(abs(to_do_y) / abs(to_do_x));
   float teta_calcule = atan2(to_do_x, to_do_y);
-  teta_objectif = abs(teta_calcule * 180 / M_PI);
+  teta_objectif = (teta_calcule * 180 / M_PI);
 
 
 

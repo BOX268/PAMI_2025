@@ -1,10 +1,18 @@
 # ifndef TEAM_SELECT
 # define TEAM_SELECT
 
-# define SUPERSTAR
+//# define SUPERSTAR
 
 # define time_evitement_depart 1/portTICK_PERIOD_MS
 
+// position struct
+struct Point
+{
+	float x;
+	float y;
+};
+
+/*
 #ifdef PAMI_1
 
 float x_goal = 1300; // 1=2500 2=500 3=2400  4=500
@@ -17,6 +25,45 @@ int time_start = 0; //1 = 90000s 2 = 90500s 3 = 90000s 4 = 90500s
 int depart = 0 ;
 
 # endif
+
+*/
+
+#ifdef PAMI_1
+
+// waypoints and avoidance need to have the same length
+
+Point waypoints[] = 
+{
+	{0, 100},
+	{200, 100},
+	{200, 0},
+	{100, 0},
+	{100, 200}
+};
+
+bool avoidance[] = {false, false, false, false, false};
+
+uint numPoints = 5;
+
+
+/*
+Point waypoints[] = 
+{
+	{0, 500},
+	{0, 0}
+};
+
+bool avoidance[] = {true, false};
+
+uint numPoints = 2;
+*/
+
+// additional delay before the pami starts moving
+int time_start = 0; //1 = 90000s 2 = 90500s 3 = 90000s 4 = 90500s
+
+
+# endif
+
 
 #ifdef PAMI_2
 
@@ -86,4 +133,9 @@ int depart = 0 ;
 
 # endif
 
+// no idea why this variable is defined here
+int depart = 0 ;
+
 # endif
+
+

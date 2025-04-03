@@ -9,8 +9,8 @@ long int total_Steps_L = 0;
 //float x_position= 1355 ; // 1= 1452 2=1355 3=1260 4=1170
 
 # ifdef PAMI_1
-float x_position = 0;
-float teta_actuelle = 0;
+float x_position = 100;
+float teta_actuelle = 90;
 # endif
 # ifdef PAMI_2
 float x_position = 1355;

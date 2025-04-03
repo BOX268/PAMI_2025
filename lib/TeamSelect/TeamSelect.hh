@@ -1,7 +1,7 @@
 # ifndef TEAM_SELECT
 # define TEAM_SELECT
 
-//# define SUPERSTAR
+# define SUPERSTAR
 
 # define time_evitement_depart 1/portTICK_PERIOD_MS
 
@@ -28,35 +28,20 @@ int depart = 0 ;
 
 */
 
-#ifdef PAMI_1
+#ifdef PAMI_1 // la superstar
 
 // waypoints and avoidance need to have the same length
 
 Point waypoints[] = 
 {
-	{0, 100},
-	{200, 100},
-	{200, 0},
-	{100, 0},
-	{100, 200}
+	{1300, 0},
+	{1300, 50}
 };
 
-bool avoidance[] = {false, false, false, false, false};
-
-uint numPoints = 5;
-
-
-/*
-Point waypoints[] = 
-{
-	{0, 500},
-	{0, 0}
-};
-
-bool avoidance[] = {true, false};
+bool avoidance[] = {false, false};
 
 uint numPoints = 2;
-*/
+
 
 // additional delay before the pami starts moving
 int time_start = 0; //1 = 90000s 2 = 90500s 3 = 90000s 4 = 90500s

@@ -19,8 +19,8 @@ void MoveToEdge()
         {
             Serial.println("no edge detected");
         }
-        if (evitement == 1) rotate(-3);
-        if (evitement == 2) rotate(3);
+        if (evitement == 1) rotate(-2);
+        if (evitement == 2) rotate(2);
         if (evitement == 3) break;
     }
 

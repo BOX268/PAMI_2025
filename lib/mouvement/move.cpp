@@ -1,30 +1,11 @@
 #include "move.h"
 
 
-
 long int total_Steps_R = 0;
 long int total_Steps_L = 0;
 
-
-//float x_position= 1355 ; // 1= 1452 2=1355 3=1260 4=1170
-
-# ifdef PAMI_1
-float x_position = 100;
+float x_position = X_POSITION_START;
 float teta_actuelle = 90;
-# endif
-# ifdef PAMI_2
-float x_position = 1355;
-float teta_actuelle = 0;
-# endif
-# ifdef PAMI_3
-float x_position = 1260;
-float teta_actuelle = 0;
-# endif
-# ifdef PAMI_4
-float x_position = 100;
-float teta_actuelle = 0;
-# endif
-
 float y_position= 0;
 
 int evitement = 0 ;

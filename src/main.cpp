@@ -1,55 +1,15 @@
-/*
-# define PAMI_1
-//# define PAMI_2
-//# define PAMI_3
-//# define PAMI_4
-*/
-
-# define TEST_MODE
-
-# ifdef TEST_MODE
-# define GLOBAL_WAIT 2000
-# endif
-# ifndef TEST_MODE
-# define GLOBAL_WAIT 90000
-# endif
-
-//# define PRINT_DISTANCES
-
 #include "move.h"
-# include "../lib/TeamSelect/TeamSelect.hh"
+#include "config_robots.hh"
 #include "Superstar.hh"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include <freertos/timers.h>  // Si vous utilisez des timers FreeRTOS
+#include <freertos/timers.h>  
 #include "ESP32Servo.h"
-
-
-
-const uint8_t sensorPinRight = A4;
-const uint8_t sensorPinMidel = A2;
-const uint8_t sensorPinLeft = A1;
-const uint8_t servoPin = 17;
-const uint8_t tirette = 11;
-const uint8_t bouton_equipe = 10; // low = blue vers le haut, hight= jaune
-char equipe = 'B'; // équipe bleu par default
-//bool drapeau_task_1 = false ;
 
 uint waypointIndex = 0;
 
-/*
-float x_goal = 500; // 1=2500 2=500 3=2400  4=500
-float y_goal = 1600; // 1=1400 2=1600 3=1000 4=600
-volatile bool go_to_1 = true ;
-float x_goal_2 = 200;// 1=3000 2=200 3=2800 4=0
-float y_goal_2 = 1800; // 1=1400 2=1800 3=1000 4=600
-int avancement_depart = 200 ; //1=1100 2=200 3=600 4=100
-int time_start = 2500; //1 = 90000s 2 = 90500s 3 = 90000s 4 = 90500s
-int depart = 0 ;
-
-*/
-
 volatile unsigned long Time1; // Variable pour stocker le temps de départ
+volatile bool SuperStarTime = false; // Variable pour indiquer si la superstar est active
 unsigned long elapsedTime;
 
 int capteur(int sensorPin); 
@@ -63,12 +23,6 @@ TaskHandle_t Task2;
 void Task1code(void *pvParameters);
 void Task2code(void *pvParameters);
 
-/* True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered*/
-volatile bool SuperStarTime = false;
-
-/* The distance above which we consider there is no floor */
-const int SUPERSTAR_FLOOR_THRESHOLD = 75;
-
 void setup() {
 	Serial.begin(9600); 
 	configureMotors();
@@ -81,7 +35,7 @@ void setup() {
 										1,           /* priority of the task */
 										&Task1,      /* Task handle to keep track of created task */
 										0);          /* pin task to core 0 */                  
-	delay(500); 
+	delay(200); 
 
 	//create a task that will be executed in the Task2code() function, with priority 1 and executed on core 1
 	xTaskCreatePinnedToCore(
@@ -97,7 +51,7 @@ void setup() {
 	myservo.attach(servoPin, 500, 10000);
 	myservo.write(0);
 	pinMode(8, OUTPUT);
-	digitalWrite(8, LOW); // pour que le enable des  drive soit à low. 
+	digitalWrite(ENABLE, LOW); // pour que le enable des  drive soit à low. 
 	pinMode(tirette, INPUT_PULLUP);
 	pinMode(bouton_equipe, INPUT_PULLUP);
 	Serial.print("setup done");
@@ -187,7 +141,7 @@ void Task1code( void * pvParameters ){
 
 	for(;;){
 
-		
+		static int depart = 1;
 		if (depart == 1){
 			depart ++;
 			Serial.print("debut du compte à rebourt");
@@ -197,15 +151,22 @@ void Task1code( void * pvParameters ){
 
 		elapsedTime = millis() - Time1;
 
-		if ((elapsedTime >10000) && (depart == 2)){
+		if ((elapsedTime >10000)){
 			stop();
-			
-				myservo.write(180);
-				vTaskDelay(100);
-				digitalWrite(8, HIGH);
-				Serial.print("FIN");
-				depart = 3;
-				//while(1){}
+			vTaskDelay(10);
+			digitalWrite(ENABLE, HIGH);
+			Serial.print("FIN du temps des 100sec ");
+			while(1){
+				if((elapsedTime < 20000) && (elapsedTime >10000)){
+					vTaskDelay(1000);
+					myservo.write(0);
+					vTaskDelay(1000);
+					myservo.write(180);
+					Serial.println("pami dance");
+				}
+				vTaskDelay(1000);
+				Serial.print("FIN du match depuis longtemps ");
+			}
 		}
 
 		int sensor_M = capteur(sensorPinMidel);
@@ -243,20 +204,6 @@ void Task1code( void * pvParameters ){
 
 		# endif
 		
-		/* 
-		
-		if((abs(sensor_M) < 250)  && (evitement == true)  && (stepperR.getStepsCompleted() > 10) && (go_to_1) ){
-			Serial.println("obstacle_midel");
-			//xSemaphoreGive(stateChangeSemaphore);
-			stop();
-			Serial.println("end of the break");
-			evitement = false;
-			vTaskDelay(10/portTICK_PERIOD_MS); //pour laisser le temps au corps 2 de refaire ça boucle. 
-			//xSemaphoreGive(stateChangeSemaphore);
-
-		}
-		*/ 
-
 		# ifdef SUPERSTAR
 		if (SuperStarTime) FloorCheckSuperstar(sensor_M, sensor_L, sensor_R);
 		// The superstar tries to avoid the slope if this is uncommented
@@ -289,80 +236,37 @@ void Task2code( void * pvParameters ){
 
 		equipe = 'J';
 	} 
-	Serial.println("debut core 2");
+	Serial.print("debut core 2");
+	Serial.print("equipe_couleur :");
 	Serial.println(equipe);
+
 	vTaskDelay(GLOBAL_WAIT); 
-	
-	//1 = 10s 2 = 12s 3 = 10s 4 = 12s
-//straight(400); //1=400 2=200 3=400 4=200
 
-	if(depart==0){
-		depart ++;
-		Serial.println("go_to depart");
-	}
-	
-
-		
-	
-
-	for (;;) {
-	/* 
-
-	if (evitement == false){  // xSemaphoreTake(stateChangeSemaphore, SEMAPHORE_WAIT_TIME) == pdTRUE
-		evitement_droit();
-		evitement = true;
-	}
-
-	*/ 
-		//evitement = false;
-		//vTaskDelay(300000/portTICK_PERIOD_MS);
-		//straight(20000); // pour que le pami démarre meme s'il y a un obstacle devant lui. 
-		//evitement = true; // pour que le pami démarre meme s'il y a un obstacle devant lui. 
-		//vTaskDelay(300000/portTICK_PERIOD_MS);
-
-		/*
-		while (!((x_position >= waypoints[waypointIndex].x - 1 && x_position <= waypoints[waypointIndex].x + 1)
-			&& (y_position >= waypoints[waypointIndex].y - 1 && y_position <= waypoints[waypointIndex].y + 1))) { */
-		while (true)
+	while (true)
 		{
-			Serial.println("debut du while");
-/* 
-			if (evitement == false){  // xSemaphoreTake(stateChangeSemaphore, SEMAPHORE_WAIT_TIME) == pdTRUE
-				evitement_droit();
-				evitement = true;
-			}
-*/
+		Serial.println("debut du while");
 
-			if (evitement == 1){  // xSemaphoreTake(stateChangeSemaphore, SEMAPHORE_WAIT_TIME) == pdTRUE
-				evitement_droit();
-				evitement = 0;
-			}
-			else if (evitement == 2){
-				evitement_gauche();
-				evitement = 0;
-			}
-
-			go_to(waypoints[waypointIndex].x, waypoints[waypointIndex].y);
-
-			if( (abs(x_position - waypoints[waypointIndex].x)<150) && (abs(y_position - waypoints[waypointIndex].y)<150) ){ // une fois que l'on est proche de la zone on quitte le while 
-				
-				waypointIndex ++;
-				if (waypointIndex >= numPoints) break; // we reached the end of the waypoints 
-				Serial.println("Next Waypoint");
-			}
-			
+		if (evitement == 1){  
+			evitement_droit();
+			evitement = 0;
+		}
+		else if (evitement == 2){
+			evitement_gauche();
+			evitement = 0;
 		}
 
+		go_to(waypoints[waypointIndex].x, waypoints[waypointIndex].y);
+
+		if( (abs(x_position - waypoints[waypointIndex].x)<150) && (abs(y_position - waypoints[waypointIndex].y)<150) ){ // une fois que l'on est proche de la zone on quitte le while 
+			
+			waypointIndex ++;
+			if (waypointIndex >= numPoints) break; // we reached the end of the waypoints 
+			Serial.println("Next Waypoint");
+		}
+			
+	}
+
 	Serial.println("sortie du while");
-	/*
-	Serial.print("arrivé à la zone");
-	//vTaskDelay(1000000);
-	go_to_1 = false ; // pour désactiver l'evitement. 
-	stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL_FINISH);
-	stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL_FINISH);
-	Serial.println("go_to_2");
-	go_to(x_goal_2,y_goal_2);
-	*/
 
 	# ifdef SUPERSTAR
 	SuperStarTime = true;
@@ -372,20 +276,14 @@ void Task2code( void * pvParameters ){
 	
 	myservo.write(180);
 	vTaskDelay(10);
-	digitalWrite(8, HIGH);
+	digitalWrite(ENABLE, HIGH);
 
 	// prevent the loop from going on
-	while (true) {}
+	while (true) {
+		Serial.println("fin du programme du core 2");
+		vTaskDelay(1000);
+	}
 	
-
-	/* 
-	if (conteur < 2){ 
-	straight(1000);
-	//go_to(1500,700); // attention durant les rotations du go_to elle l'évitement peut s'activer
-	conteur ++;
-	}
-	*/ 
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////

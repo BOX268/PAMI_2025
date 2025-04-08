@@ -1,2 +1,8 @@
 
 - ifdef du numéro du pami dans move.h ligne 14
+
+manual utilisation nano esp32 : 
+https://docs.arduino.cc/tutorials/nano-esp32/cheat-sheet/
+
+Reset the Arduino bootloader on the Nano ESP32
+https://support.arduino.cc/hc/en-us/articles/9810414060188-Reset-the-Arduino-bootloader-on-the-Nano-ESP32

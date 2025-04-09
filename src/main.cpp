@@ -35,7 +35,7 @@ void setup() {
 										1,           /* priority of the task */
 										&Task1,      /* Task handle to keep track of created task */
 										0);          /* pin task to core 0 */                  
-	delay(200); 
+	delay(3000); 
 
 	//create a task that will be executed in the Task2code() function, with priority 1 and executed on core 1
 	xTaskCreatePinnedToCore(
@@ -46,15 +46,15 @@ void setup() {
 										1,           /* priority of the task */
 										&Task2,      /* Task handle to keep track of created task */
 										1);          /* pin task to core 1 */
-	//delay(500); 
+	delay(500); 
 	myservo.setPeriodHertz(50);    // standard 50 hz servo
 	myservo.attach(servoPin, 500, 10000);
 	myservo.write(0);
-	pinMode(8, OUTPUT);
+	pinMode(ENABLE, OUTPUT);
 	digitalWrite(ENABLE, LOW); // pour que le enable des  drive soit à low. 
 	pinMode(tirette, INPUT_PULLUP);
 	pinMode(bouton_equipe, INPUT_PULLUP);
-	Serial.print("setup done");
+	Serial.println("setup done");
 }
 
 void AvoidanceChecksNormal(int sensor_M, int sensor_L, int sensor_R)
@@ -148,36 +148,41 @@ void Task1code( void * pvParameters ){
 			Time1 = millis();
 		}
 		
-
 		elapsedTime = millis() - Time1;
 
-		if ((elapsedTime >10000)){
+		if ((elapsedTime >100000)){
 			stop();
 			vTaskDelay(10);
 			digitalWrite(ENABLE, HIGH);
 			Serial.print("FIN du temps des 100sec ");
 			while(1){
-				if((elapsedTime < 20000) && (elapsedTime >10000)){
+				static unsigned long elapsedTime2 = 0;
+				elapsedTime2 = millis() - Time1;
+				if((elapsedTime2 < 150000) && (elapsedTime2 >100000)){
 					vTaskDelay(1000);
 					myservo.write(0);
 					vTaskDelay(1000);
 					myservo.write(180);
-					Serial.println("pami dance");
+					Serial.print("pami dance ");
+					Serial.print("elapsedTime2:");
+					Serial.println(elapsedTime2);
 				}
-				vTaskDelay(1000);
-				Serial.print("FIN du match depuis longtemps ");
+				else if (elapsedTime2 > 150000){ 
+					Serial.print("FIN du match depuis longtemps ");
+					vTaskDelay(2000);
+				}
 			}
 		}
-
+		#ifdef EVITEMENT
 		int sensor_M = capteur(sensorPinMidel);
 		int sensor_L = capteur(sensorPinLeft);
 		int sensor_R = capteur(sensorPinRight);
+		#endif
 
 		# ifdef PRINT_DISTANCES
-		
 	//Serial.print(" evitement:");
 	//Serial.print(evitement);
-		Serial.print("time:");
+		Serial.print("elapsedTime:");
 		Serial.print(elapsedTime);
 		Serial.print(" equipe:");
 		Serial.print(equipe);
@@ -191,34 +196,31 @@ void Task1code( void * pvParameters ){
 		//stepperR.stop(); stepperL.stop();
 		Serial.print(" teta_actuelle:");
 		Serial.print(teta_actuelle);
-		Serial.print(" stepperR:");
-		Serial.print(stepperR.getStepsCompleted());
+		//Serial.print(" stepperR:");
+		//Serial.print(stepperR.getStepsCompleted());
 		//Serial.print(" total_Steps_R:");
 		//Serial.print(total_Steps_R); 
-		Serial.print(" position x ");
+		Serial.print(" position x:");
 		Serial.print(x_position);
-		Serial.print(" position y ");
+		Serial.print(" position y:");
 		Serial.print(y_position);
-		Serial.print(" evitement ");
+		Serial.print(" evitement:");
 		Serial.println(evitement);
-
 		# endif
 		
-		# ifdef SUPERSTAR
+		#if defined(PAMI_1) && defined(EVITEMENT)
 		if (SuperStarTime) FloorCheckSuperstar(sensor_M, sensor_L, sensor_R);
 		// The superstar tries to avoid the slope if this is uncommented
 		//else AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R);
 		# endif
-		# ifndef SUPERSTAR
+		#if (!defined(PAMI_1)) && defined(EVITEMENT)
 		AvoidanceChecksNormal(sensor_M, sensor_L, sensor_R);
 		# endif
-
-
 				
 	vTaskDelay(1/portTICK_PERIOD_MS);
 	}
 }
-//Task2code: blinks an LED every 700 ms
+
 void Task2code( void * pvParameters ){
  
 	while (!(digitalRead(tirette))){
@@ -227,24 +229,24 @@ void Task2code( void * pvParameters ){
 	} 
 		
 	 //vTaskDelay(200);
-	if (digitalRead(bouton_equipe)){
+	if (!digitalRead(bouton_equipe)){
 
 		for (int i = 0; i < numPoints; i++)
 		{
 			waypoints[i].x = symetrie(waypoints[i].x);
+			// la symetrie est à revoir 
 		}
 
 		equipe = 'J';
 	} 
-	Serial.print("debut core 2");
 	Serial.print("equipe_couleur :");
 	Serial.println(equipe);
-
+	Serial.println("wait start...");
 	vTaskDelay(GLOBAL_WAIT); 
 
 	while (true)
 		{
-		Serial.println("debut du while");
+		Serial.println("start boucle while");
 
 		if (evitement == 1){  
 			evitement_droit();
@@ -268,12 +270,11 @@ void Task2code( void * pvParameters ){
 
 	Serial.println("sortie du while");
 
-	# ifdef SUPERSTAR
+	# ifdef PAMI_1
 	SuperStarTime = true;
 	MoveToEdge();
 	# endif
 
-	
 	myservo.write(180);
 	vTaskDelay(10);
 	digitalWrite(ENABLE, HIGH);
@@ -281,10 +282,11 @@ void Task2code( void * pvParameters ){
 	// prevent the loop from going on
 	while (true) {
 		Serial.println("fin du programme du core 2");
-		vTaskDelay(1000);
+		vTaskDelay(2000);
 	}
 	
 }
+
 
 //////////////////////////////////////////////////////////////////////////////
 

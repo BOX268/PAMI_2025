@@ -5,8 +5,8 @@ long int total_Steps_R = 0;
 long int total_Steps_L = 0;
 
 float x_position = X_POSITION_START;
-float teta_actuelle = 90;
-float y_position= 0;
+float y_position = Y_POSITION_START;
+float teta_actuelle = TETA_POSITION_START;
 
 int evitement = 0 ;
 
@@ -37,24 +37,21 @@ void straight(float distance_){
   Serial.print("distance à parcourir:");
   Serial.print(distance_);
   Serial.print(" nombre de step à parcourir:");
-  Serial.print(distance);
+  Serial.println(distance);
   controller.move(distance, distance);
   position();
-  Serial.println("la fin du straight");
+  Serial.println("end function straight");
 }
 
 void rotate (float angle){
+  Serial.println("start fonction rotate");
   int sauvegarde_evitement;
   sauvegarde_evitement = evitement ;
   evitement = -1;
 
-  //stepperR.setRPM(ROTATION_RPM);
-  //stepperL.setRPM(ROTATION_RPM);
-
   stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
 
-  Serial.print("debut du rotate");
   float angl= angle * COEF_ROTATE / 360 ;
   Serial.print(" angle:");
   Serial.println(angle);
@@ -68,12 +65,12 @@ void rotate (float angle){
   }
   Serial.print(" nouvelle orientation");
   Serial.println(teta_actuelle);
-  Serial.println("fin du rotate");
 
   stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 
   evitement = sauvegarde_evitement ;
+  Serial.println("end fonction rotate");
 }
 
 void stop(){
@@ -89,8 +86,8 @@ bool moving(){
 }
 
 void go_to(float go_x, float go_y){
-  Serial.println("debut du go_to");
-  float teta_goal = 0;
+  Serial.println("start fonction go_to");
+  float teta_to_do = 0;
   float teta_objectif = 0;
   float to_do_x = go_x - x_position;
   float to_do_y = go_y - y_position;
@@ -101,34 +98,32 @@ void go_to(float go_x, float go_y){
 
   float distance = sqrt(to_do_x*to_do_x + to_do_y*to_do_y );
   //float teta_calcule = atan(abs(to_do_y) / abs(to_do_x));
-  float teta_calcule = atan2(to_do_x, to_do_y);
+  float teta_calcule = atan2(to_do_y, to_do_x);
   teta_objectif = (teta_calcule * 180 / M_PI);
 
-
-
-  Serial.print(" teta_objectif : ");
+  Serial.print(" teta_objectif:");
   Serial.println(teta_objectif);
 
-  teta_goal = teta_objectif - teta_actuelle;
+  teta_to_do = teta_objectif - teta_actuelle;
 
-  if(teta_goal >= 180){
-    teta_goal = teta_objectif - teta_actuelle - 360;
+  if(teta_to_do >= 180){
+    teta_to_do = teta_objectif - teta_actuelle - 360;
     //Serial.print(" teta_goal > 180");
   } 
 
-  if (teta_goal < -180){
-    teta_goal = teta_objectif - teta_actuelle + 360;
+  if (teta_to_do < -180){
+    teta_to_do = teta_objectif - teta_actuelle + 360;
   }
-  Serial.print("teta_goal : ");
-  Serial.print(teta_goal);
-  rotate(teta_goal );
+  Serial.print("teta_to_do:");
+  Serial.print(teta_to_do);
+  rotate(teta_to_do );
   //evitement = 0;
   //Serial.print("evitement: ");
   //Serial.print(evitement);
   //Serial.print(" valeur distance:");
   //Serial.println(distance);
   straight(distance);
-  Serial.println("fin du go_to");
+  Serial.println("end fonction go_to");
   return;
 }
 
@@ -145,21 +140,21 @@ void debug_position(){
 }
 
 void evitement_droit(){
-  Serial.print("evitement droit");
+  Serial.print("start evitement droit");
   rotate(70);
   straight(150);
-  Serial.print("fin evitement droit ");
+  Serial.print("end evitement droit ");
 }
 
 void evitement_gauche(){
-  Serial.print("evitement gauche");
+  Serial.print("start evitement gauche");
   rotate(-70);
   straight(150);
-  Serial.print("fin evitement gauche ");
+  Serial.print("end evitement gauche ");
 }
 
 void position(){
-  Serial.println("debut de la fonction position");
+  Serial.println("start fonction position");
   int current_StepsR = stepperR.getStepsCompleted();
   int current_StepsL = stepperL.getStepsCompleted();
   total_Steps_R += current_StepsR ;
@@ -171,36 +166,25 @@ void position(){
   float distance = current_StepsR / ((MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / 195); // mm
   //Serial.print("current_StepsR");
   //Serial.println(current_StepsR);
-  Serial.print(" distance parcouru : ");
+  Serial.print(" distance parcouru:");
   Serial.print(distance);
-// le changement du teta s'actualise dans la fonction rotate. 
-
-  //float displacement_x = distance_traveled * cos(teta_actuelle * M_PI / 180.0f); // M_PI / 180.0f pour la convertion en radian
-  //float displacement_y = distance_traveled * sin(teta_actuelle * M_PI / 180.0f);
-
-  /*
-  float teta_actuelle_ = fmod(teta_actuelle, 90.0f);
-  Serial.print("fmod(teta_actuelle, 90.0f) : ");
-  Serial.print(teta_actuelle_); */
-
   
-
   distance_y = distance * cos(teta_actuelle * M_PI / 180.0f); // M_PI / 180.0f pour la convertion en radian
   distance_x = distance * sin(teta_actuelle * M_PI / 180.0f);
 
-  Serial.print(" distance_x_ajouter : ");
+  Serial.print(" distance_x_ajouter:");
   Serial.print(distance_x);
-  Serial.print(" distance_y_ajouter : ");
+  Serial.print(" distance_y_ajouter:");
   Serial.print(distance_y);
 
   x_position += distance_x;
   y_position += distance_y;
 
-  Serial.print(" nouvelle position x ");
+  Serial.print(" new position x:");
   Serial.print(x_position);
-  Serial.print(" nouvelle position y ");
+  Serial.print(" new position y:");
   Serial.println(y_position);
-  Serial.println("fin du calcule de position");
+  Serial.println("end fonction position");
 }
 
 

@@ -4,6 +4,8 @@
 #include <Arduino.h>
 
 # define TEST_MODE
+//# define PRINT_DISTANCES
+//# define EVITEMENT 
 
 # ifdef TEST_MODE
 # define GLOBAL_WAIT 2000
@@ -11,9 +13,6 @@
 # ifndef TEST_MODE
 # define GLOBAL_WAIT 90000
 # endif
-
-//# define PRINT_DISTANCES
-
 
 ///////// define pin name /////////// 
 
@@ -38,16 +37,13 @@ const uint8_t bouton_equipe = 10; // low = blue vers le haut, hight= jaune ( éq
 //# define PAMI_2
 //# define PAMI_3
 //# define PAMI_4
-# define SUPERSTAR // faut supprimer ça plus tard
 
 ///////// fin chose which pami you want to use /////////////
 
-# define time_evitement_depart 1/portTICK_PERIOD_MS /// ????? 
-
-// position struct
+// position struct {x,y} in mm
 typedef struct Point {
-    float x;
-    float y;
+    float x; 
+    float y; 
 } Point;
 
 extern Point waypoints[];
@@ -60,7 +56,7 @@ extern char equipe; // equipe bleu par default
 
 #define X_POSITION_START_ 0.0 
 #define Y_POSITION_START_  0.0
-#define TETA_POSITION_START_ 0.0
+#define TETA_POSITION_START_ 90.0
 
 #define MOTOR_X_RPM_ 100
 #define MOTOR_Y_RPM_ 100

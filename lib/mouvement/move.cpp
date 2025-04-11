@@ -24,12 +24,8 @@ stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 }
 
-void straight(float distance_){
+void straight(float distance_){  // positive and negatif value allowed
   Serial.println("debut du straight");
-  if(distance_ < 1) { 
-  Serial.print("erreur distance < 0");
-  return ;
-  }
   //stepperR.setRPM(TRANSLATION_RPM);
   //stepperL.setRPM(TRANSLATION_RPM);
   float mm = (MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / 195 ;// 200*MICROSTEPS = périmètre de la roue (diamètre = 62)* M_PI = 195 mm
@@ -140,17 +136,17 @@ void debug_position(){
 }
 
 void evitement_droit(){
-  Serial.print("start evitement droit");
+  Serial.println("start evitement droit");
   rotate(70);
   straight(150);
-  Serial.print("end evitement droit ");
+  Serial.println("end evitement droit ");
 }
 
 void evitement_gauche(){
-  Serial.print("start evitement gauche");
+  Serial.println("start evitement gauche");
   rotate(-70);
   straight(150);
-  Serial.print("end evitement gauche ");
+  Serial.println("end evitement gauche ");
 }
 
 void position(){
@@ -192,4 +188,9 @@ void SetRPM(int rpm)
 {
   stepperL.setRPM(rpm);
   stepperR.setRPM(rpm);
+}
+
+void Set_Decelerate(int decel){
+  stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, decel);
+  stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, decel);
 }

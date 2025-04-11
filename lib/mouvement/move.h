@@ -10,16 +10,14 @@
 #include <string>
 
 #define MOTOR_STEPS 200
-#define MOTOR_X_RPM MOTOR_X_RPM_
-#define MOTOR_Y_RPM MOTOR_Y_RPM_
-#define MOTOR_RPM 100 // pas redefini dans config 
+#define MOTOR_RPM 100 
 
 // changer cette valeur à 1 a l'air de casser le calcul de distance et la puissance des moteurs
 #define MICROSTEPS 16
 
 #define MOTOR_ACCEL MOTOR_ACCEL_
 #define MOTOR_DECEL MOTOR_DECEL_
-#define MOTOR_DECEL_FINISH MOTOR_DECEL_FINISH_
+#define MOTOR_DECEL_FINISH MOTOR_DECEL_FINISH_ // à test 
 
 #define MOTOR_ACCEL_DECEL_ROTATE MOTOR_ACCEL_DECEL_ROTATE_ // 700
 
@@ -43,6 +41,7 @@ bool moving();
 void stop();
 
 void SetRPM(int rpm);
+void Set_Decelerate(int decel);
 
 extern float x_position ;
 extern float y_position ;

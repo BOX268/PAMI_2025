@@ -209,6 +209,7 @@ void Task1code( void * pvParameters ){
 		# endif
 		
 		#if defined(PAMI_1) && defined(EVITEMENT)
+		if (!(SuperStarTime)) AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R); // maybe this fonction will need to be remove due to the hill
 		if (SuperStarTime) FloorCheckSuperstar(sensor_M, sensor_L, sensor_R);
 		// The superstar tries to avoid the slope if this is uncommented
 		//else AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R);

@@ -10,9 +10,9 @@
 #include <string>
 
 #define MOTOR_STEPS 200
-#define MOTOR_X_RPM MOTOR_X_RPM_
-#define MOTOR_Y_RPM MOTOR_Y_RPM_
-#define MOTOR_RPM 100 // pas redefini dans config 
+#define MOTOR_X_RPM // inutile 
+#define MOTOR_Y_RPM // inutile
+#define MOTOR_RPM MOTOR_RPM_ 
 
 // changer cette valeur à 1 a l'air de casser le calcul de distance et la puissance des moteurs
 #define MICROSTEPS 16

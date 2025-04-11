@@ -16,7 +16,7 @@
 
 ///////// define pin name /////////// 
 
-const uint8_t sensorPinRight = A4;
+const uint8_t sensorPinRight = A3;
 const uint8_t sensorPinMidel = A2;
 const uint8_t sensorPinLeft = A1;
 const uint8_t servoPin = 17;
@@ -58,10 +58,9 @@ extern char equipe; // equipe bleu par default
 #define Y_POSITION_START_  0.0
 #define TETA_POSITION_START_ 90.0
 
-#define MOTOR_X_RPM_ 100
-#define MOTOR_Y_RPM_ 100
+#define MOTOR_RPM_ 150
 #define MOTOR_ACCEL_ 1400
-#define MOTOR_DECEL_ 4000
+#define MOTOR_DECEL_ 1000
 #define MOTOR_DECEL_FINISH_ 500
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700

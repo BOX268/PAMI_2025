@@ -35,7 +35,7 @@ void setup() {
 										1,           /* priority of the task */
 										&Task1,      /* Task handle to keep track of created task */
 										0);          /* pin task to core 0 */                  
-	delay(3000); 
+	delay(2000); 
 
 	//create a task that will be executed in the Task2code() function, with priority 1 and executed on core 1
 	xTaskCreatePinnedToCore(
@@ -130,7 +130,7 @@ void FloorCheckSuperstar(int sensor_M, int sensor_L, int sensor_R)
 }
 
 void Task1code( void * pvParameters ){
-	//vTaskDelay(1000);
+	vTaskDelay(3000);
 
 	myservo.write(0);
 	while (!(digitalRead(tirette))){
@@ -168,7 +168,7 @@ void Task1code( void * pvParameters ){
 					Serial.println(elapsedTime2);
 				}
 				else if (elapsedTime2 > 150000){ 
-					Serial.print("FIN du match depuis longtemps ");
+					Serial.println("FIN du programme core 1 / fin du match depuis longtemps ");
 					vTaskDelay(2000);
 				}
 			}
@@ -222,7 +222,8 @@ void Task1code( void * pvParameters ){
 }
 
 void Task2code( void * pvParameters ){
- 
+	vTaskDelay(3000);
+
 	while (!(digitalRead(tirette))){
 		vTaskDelay(20);
 		Serial.println("wait la tirette task 2");
@@ -246,7 +247,7 @@ void Task2code( void * pvParameters ){
 
 	while (true)
 		{
-		Serial.println("start boucle while");
+		Serial.println("start boucle while core 2");
 
 		if (evitement == 1){  
 			evitement_droit();
@@ -268,20 +269,19 @@ void Task2code( void * pvParameters ){
 			
 	}
 
-	Serial.println("sortie du while");
+	Serial.println("sortie du while core 2");
 
-	# ifdef PAMI_1
+	#if defined(PAMI_1) && defined(EVITEMENT)
 	SuperStarTime = true;
 	MoveToEdge();
-	# endif
+	#endif
 
-	myservo.write(180);
 	vTaskDelay(10);
 	digitalWrite(ENABLE, HIGH);
 
 	// prevent the loop from going on
 	while (true) {
-		Serial.println("fin du programme du core 2");
+		Serial.println("FIN du programme du core 2");
 		vTaskDelay(2000);
 	}
 	

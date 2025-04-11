@@ -25,7 +25,7 @@ stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 }
 
 void straight(float distance_){
-  Serial.print("debut du straight");
+  Serial.println("debut du straight");
   if(distance_ < 1) { 
   Serial.print("erreur distance < 0");
   return ;
@@ -169,8 +169,8 @@ void position(){
   Serial.print(" distance parcouru:");
   Serial.print(distance);
   
-  distance_y = distance * cos(teta_actuelle * M_PI / 180.0f); // M_PI / 180.0f pour la convertion en radian
-  distance_x = distance * sin(teta_actuelle * M_PI / 180.0f);
+  distance_x = distance * cos(teta_actuelle * M_PI / 180.0f); // M_PI / 180.0f pour la convertion en radian
+  distance_y = distance * sin(teta_actuelle * M_PI / 180.0f);
 
   Serial.print(" distance_x_ajouter:");
   Serial.print(distance_x);

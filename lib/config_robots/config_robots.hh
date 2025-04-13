@@ -5,7 +5,7 @@
 
 # define TEST_MODE
 //# define PRINT_DISTANCES
-//# define EVITEMENT 
+# define EVITEMENT 
 
 # ifdef TEST_MODE
 # define GLOBAL_WAIT 2000
@@ -54,9 +54,9 @@ extern char equipe; // equipe bleu par default
 
 #ifdef PAMI_1 // la superstar
 
-#define X_POSITION_START_ 1200.0
-#define Y_POSITION_START_  70.0
-#define TETA_POSITION_START_ 90.0
+#define X_POSITION_START_ 70.0
+#define Y_POSITION_START_  1900
+#define TETA_POSITION_START_ 0.0
 
 #define MOTOR_RPM_ 100
 #define MOTOR_ACCEL_ 1400

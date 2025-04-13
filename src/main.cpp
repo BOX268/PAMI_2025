@@ -236,12 +236,12 @@ void Task2code( void * pvParameters ){
 		for (int i = 0; i < numPoints; i++)
 		{
 			waypoints[i].x = symetrie(waypoints[i].x);
-			// la symetrie est à revoir 
 		}
-
+		x_position = symetrie(x_position);
+		teta_actuelle = teta_actuelle + 180;
 		equipe = 'J';
 	} 
-	Serial.print("equipe_couleur :");
+	Serial.print(" equipe_couleur :");
 	Serial.println(equipe);
 	Serial.println("wait start...");
 	vTaskDelay(GLOBAL_WAIT); 

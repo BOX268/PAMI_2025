@@ -265,7 +265,10 @@ void Task2code( void * pvParameters ){
 			
 			waypointIndex ++;
 			if (waypointIndex >= numPoints) break; // we reached the end of the waypoints 
-			Serial.println("Next Waypoint");
+			Serial.print("Next Waypoint, x:");
+			Serial.print(waypoints[waypointIndex].x);
+			Serial.print(" y:");
+			Serial.println(waypoints[waypointIndex].y);
 		}
 			
 	}

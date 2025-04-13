@@ -48,8 +48,8 @@ void rotate (float angle){
   stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
 
-  float angl= angle * COEF_ROTATE / 360 ;
-  Serial.print(" angle:");
+  float angl= angle * COEF_ROTATE / 360 ; // pourquoi diviser pas 360 ?
+  Serial.print(" rotation_of ...:");
   Serial.println(angle);
   controller.rotate(angl, -angl);
   teta_actuelle += angle;
@@ -82,23 +82,26 @@ bool moving(){
 }
 
 void go_to(float go_x, float go_y){
-  Serial.println("start fonction go_to");
+  Serial.print("start fonction go_to, go_x:");
+  Serial.print(go_x);
+  Serial.print(" go_y:");
+  Serial.println(go_y);
   float teta_to_do = 0;
   float teta_objectif = 0;
   float to_do_x = go_x - x_position;
-  float to_do_y = go_y - y_position;
-  Serial.print("to do_y:");
+  float to_do_y = -(go_y - y_position); // on rajoute un moins pour que l'axe y soit inverser. l'axe y sur le vinil de surdiabotique est inverser par rapport au cercle trigo. 
+  Serial.print(" to do_y:");
   Serial.print(to_do_y);
-  Serial.print("  to do_x: ");
+  Serial.print(" to do_x:");
   Serial.print(to_do_x);
 
   float distance = sqrt(to_do_x*to_do_x + to_do_y*to_do_y );
   //float teta_calcule = atan(abs(to_do_y) / abs(to_do_x));
   float teta_calcule = atan2(to_do_y, to_do_x);
-  teta_objectif = (teta_calcule * 180 / M_PI);
-
+  float teta_objectif_ = (teta_calcule * 180 / M_PI);
+  teta_objectif = - teta_objectif_ ; // on rajoute le - pour avoir le sens de rotation positive -->clockwise. 
   Serial.print(" teta_objectif:");
-  Serial.println(teta_objectif);
+  Serial.print(teta_objectif);
 
   teta_to_do = teta_objectif - teta_actuelle;
 
@@ -110,7 +113,7 @@ void go_to(float go_x, float go_y){
   if (teta_to_do < -180){
     teta_to_do = teta_objectif - teta_actuelle + 360;
   }
-  Serial.print("teta_to_do:");
+  Serial.print(" teta_to_do:");
   Serial.print(teta_to_do);
   rotate(teta_to_do );
   //evitement = 0;
@@ -166,7 +169,7 @@ void position(){
   Serial.print(distance);
   
   distance_x = distance * cos(teta_actuelle * M_PI / 180.0f); // M_PI / 180.0f pour la convertion en radian
-  distance_y = distance * sin(teta_actuelle * M_PI / 180.0f);
+  distance_y = distance * sin(teta_actuelle * M_PI / 180.0f); // il y a un signe moins au debut car on conconsidère le cercle trigonométrique avec le 0 vers la cuisine, l'axe des x est correcte, mais l'axe des y est inversé par rapport au cercle trigo. 
 
   Serial.print(" distance_x_ajouter:");
   Serial.print(distance_x);

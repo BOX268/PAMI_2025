@@ -5,7 +5,7 @@
 
 # define TEST_MODE
 //# define PRINT_DISTANCES
-# define EVITEMENT 
+//# define EVITEMENT 
 
 # ifdef TEST_MODE
 # define GLOBAL_WAIT 2000
@@ -19,9 +19,9 @@
 const uint8_t sensorPinRight = A3;
 const uint8_t sensorPinMidel = A2;
 const uint8_t sensorPinLeft = A1;
-const uint8_t servoPin = 17;
-const uint8_t tirette = 11;
-const uint8_t bouton_equipe = 10; // low = blue vers le haut, hight= jaune ( équipe bleu par default)
+const uint8_t servoPin = 17; //A0
+const uint8_t tirette = 11; // D11
+const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune ( équipe bleu par default)
 
 #define DIR_X 3 // moteur gauche
 #define STEP_X 6 // moteur gauche
@@ -54,11 +54,11 @@ extern char equipe; // equipe bleu par default
 
 #ifdef PAMI_1 // la superstar
 
-#define X_POSITION_START_ 0.0 
-#define Y_POSITION_START_  0.0
-#define TETA_POSITION_START_ 0.0
+#define X_POSITION_START_ 1200.0
+#define Y_POSITION_START_  70.0
+#define TETA_POSITION_START_ 90.0
 
-#define MOTOR_RPM_ 150
+#define MOTOR_RPM_ 100
 #define MOTOR_ACCEL_ 1400
 #define MOTOR_DECEL_ 300
 #define MOTOR_DECEL_AVOIDEMENT 5000 // freinage brust s'il y a un obstacle
@@ -143,8 +143,4 @@ int depart = 0 ;
 
 # endif
 
-
-
 # endif
-
-

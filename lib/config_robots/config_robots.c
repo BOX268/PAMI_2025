@@ -6,11 +6,14 @@ char equipe = 'B'; // équipe bleu par default
 
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {
-    {10, 0},
-    {11,0}
+    {1200, 300},
+    {800, 400},
+    {1200,200},
+    {900,200},
+    {1200,400}
 };
 
-bool avoidance[] = {true,true};
-uint32_t numPoints = 2;
+bool avoidance[] = {false,false,false,false,true};
+uint32_t numPoints = 5;
 
 # endif

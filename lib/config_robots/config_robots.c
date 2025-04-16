@@ -22,15 +22,15 @@ uint32_t numPoints = 2;
 
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {
-    {1300, 1900},
-    {1300, 1800},
-    {1200,200},
-    {900,200},
-    {1200,400}
+    {300,1820 },
+    {550,1520},
+   { 950,1520},
+   
+  
 };
 
-bool avoidance[] = {false,false,false,false,true};
-uint32_t numPoints = 2;
+bool avoidance[] = {true,true,false,};
+uint32_t numPoints = 3;
 
 # endif
 
@@ -38,31 +38,32 @@ uint32_t numPoints = 2;
 
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {
-    {1300, 1900},
-    {1300, 1800},
-    {1200,200},
-    {900,200},
-    {1200,400}
+    {230, 1715},
+    {700, 1350},
+    {1300,1350},
+   
+    
 };
 
-bool avoidance[] = {false,false,false,false,true};
-uint32_t numPoints = 2;
+bool avoidance[] = {false,false,false};
+uint32_t numPoints = 3;
 
 # endif
 
-#ifdef PAMI_4
+
+
+#ifdef PAMI_4 
 
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {
-    {1300, 1900},
-    {1300, 1800},
-    {1200,200},
-    {900,200},
-    {1200,400}
+    {450,1600 },
+    {550,1170},
+   { 1800,1170},
+    {1900,1350},
+  
 };
 
-bool avoidance[] = {false,false,false,false,true};
-uint32_t numPoints = 2;
+bool avoidance[] = {true,true,true,true};
+uint32_t numPoints = 4;
 
 # endif
-

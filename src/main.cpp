@@ -86,7 +86,7 @@ void AvoidanceChecksNormal(int sensor_M, int sensor_L, int sensor_R)
 	}
 }
 
-void AvoidanceChecksSuperstar(int sensor_M, int sensor_L, int sensor_R)
+void AvoidanceChecksSuperstar(int sensor_M)
 {
 	if ((evitement == 0) && moving() && avoidance[waypointIndex])
 	{
@@ -175,8 +175,8 @@ void Task1code( void * pvParameters ){
 		}
 		#ifdef EVITEMENT
 		int sensor_M = capteur(sensorPinMidel);
-		int sensor_L = capteur(sensorPinLeft);
-		int sensor_R = capteur(sensorPinRight);
+		int sensor_L = 1;
+		int sensor_R = 1;
 		#endif
 
 		# ifdef PRINT_DISTANCES
@@ -209,7 +209,7 @@ void Task1code( void * pvParameters ){
 		# endif
 		
 		#if defined(PAMI_1) && defined(EVITEMENT)
-		if (!(SuperStarTime)) AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R); // maybe this fonction will need to be remove due to the hill
+		if (!(SuperStarTime)) AvoidanceChecksSuperstar(sensor_M); // maybe this fonction will need to be remove due to the hill
 		if (SuperStarTime) FloorCheckSuperstar(sensor_M, sensor_L, sensor_R);
 		// The superstar tries to avoid the slope if this is uncommented
 		//else AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R);
@@ -245,6 +245,9 @@ void Task2code( void * pvParameters ){
 	Serial.println(equipe);
 	Serial.println("wait start...");
 	vTaskDelay(GLOBAL_WAIT); 
+	Serial.println("extrat wait...");
+	vTaskDelay(ADD_DELAY_START);
+	Serial.println("end extrat wait...");
 
 	while (true)
 		{

@@ -10,7 +10,8 @@
 #include <string>
 
 #define MOTOR_STEPS 200
-#define MOTOR_RPM 100 
+#define MOTOR_RPM MOTOR_RPM_ 
+ 
 
 // changer cette valeur à 1 a l'air de casser le calcul de distance et la puissance des moteurs
 #define MICROSTEPS 16

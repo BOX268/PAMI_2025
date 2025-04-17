@@ -41,12 +41,12 @@ Point waypoints[] = {
     {230, 1715},
     {700, 1350},
     {1300,1350},
-   
+    {1300,1360},
     
 };
 
-bool avoidance[] = {false,false,false};
-uint32_t numPoints = 3;
+bool avoidance[] = {false,false,false,false};
+uint32_t numPoints = 4;
 
 # endif
 
@@ -58,8 +58,10 @@ uint32_t numPoints = 3;
 Point waypoints[] = {
     {450,1600 },
     {550,1170},
-   { 1800,1170},
-    {1900,1350},
+   { 1840,1170},
+    {1860,1350},
+    
+    
   
 };
 

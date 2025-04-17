@@ -244,7 +244,8 @@ void Task2code( void * pvParameters ){
 	Serial.print(" equipe_couleur :");
 	Serial.println(equipe);
 	Serial.println("wait start...");
-	vTaskDelay(GLOBAL_WAIT); 
+	vTaskDelay(GLOBAL_WAIT);
+	vTaskDelay(ADD_DELAY_START); 
 
 	while (true)
 		{

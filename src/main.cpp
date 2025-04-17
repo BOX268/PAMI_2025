@@ -65,8 +65,8 @@ void AvoidanceChecksNormal(int sensor_M, int sensor_L, int sensor_R)
 		{
 			stop();
 			Serial.println("obstacle Middle");
-			if (sensor_L < sensor_R) evitement = 1; // evitement droit
-			else evitement = 2; //evitement gauche
+			if (sensor_L < sensor_R) evitement = 1; // evitement par la droite
+			else evitement = 2; //evitement par la gauche
 			vTaskDelay(10/portTICK_PERIOD_MS);
 		}
 		else if (sensor_L > 5 && sensor_L  < 100 )
@@ -175,8 +175,8 @@ void Task1code( void * pvParameters ){
 		}
 		#ifdef EVITEMENT
 		int sensor_M = capteur(sensorPinMidel);
-		int sensor_L = 1;
-		int sensor_R = 1;
+		int sensor_L = capteur(sensorPinLeft);
+		int sensor_R = capteur(sensorPinRight);
 		#endif
 
 		# ifdef PRINT_DISTANCES

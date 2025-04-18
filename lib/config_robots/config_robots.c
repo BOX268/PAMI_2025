@@ -7,7 +7,7 @@ char equipe = 'B'; // équipe bleu par default
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {
     {300, 1940},
-    {500, 1900},
+    {550, 1900},
     {1300,1900},
     {1300,1800},
     

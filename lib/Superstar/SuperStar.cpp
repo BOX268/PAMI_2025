@@ -46,6 +46,8 @@
     }
  
     stop();
+    Serial.println("rotate -1 before edge");
+    rotate(-1);
     Serial.println("TRANSLATION_DISTANCE_AFTER_EDGE");
     straight(TRANSLATION_DISTANCE_AFTER_EDGE);
 

@@ -5,7 +5,7 @@
  
  #include <freertos/FreeRTOS.h>
  
- # define TRANSLATION_DISTANCE_AFTER_EDGE 1
+ # define TRANSLATION_DISTANCE_AFTER_EDGE 20
  # define APPROACH_SPEED 30
  # define APPROACH_ACCEL 700
  # define APPROACH_DECEL 5000

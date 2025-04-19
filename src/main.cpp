@@ -250,8 +250,11 @@ void Task2code( void * pvParameters ){
 	Serial.println("end extrat wait...");
 
 	while (true)
-		{
+	{
 		Serial.println("start boucle while core 2");
+
+		stepperL.setRPM(rpms[waypointIndex]);
+		stepperR.setRPM(rpms[waypointIndex]);
 
 		if (evitement == 1){  
 			evitement_droit();
@@ -272,6 +275,8 @@ void Task2code( void * pvParameters ){
 			Serial.print(waypoints[waypointIndex].x);
 			Serial.print(" y:");
 			Serial.println(waypoints[waypointIndex].y);
+
+			
 		}
 			
 	}

@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-# define TEST_MODE
+//# define TEST_MODE
 //# define PRINT_DISTANCES
 # define EVITEMENT 
 
@@ -11,7 +11,7 @@
 # define GLOBAL_WAIT 2000
 # endif
 # ifndef TEST_MODE
-# define GLOBAL_WAIT 90000
+# define GLOBAL_WAIT 85000
 # endif
 
 ///////// define pin name /////////// 
@@ -33,9 +33,9 @@ const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune (
 
 ////// chose which pami you want to use /////////////
 
-# define PAMI_1 // la superstar
+//# define PAMI_1 // la superstar
 //# define PAMI_2
-//#define PAMI_3
+#define PAMI_3
 //#define PAMI_4
 
 ///////// fin chose which pami you want to use /////////////

@@ -49,7 +49,7 @@ void setup() {
 	delay(500); 
 	myservo.setPeriodHertz(50);    // standard 50 hz servo
 	myservo.attach(servoPin, 500, 10000);
-	myservo.write(0);
+	myservo.write(180);
 	pinMode(ENABLE, OUTPUT);
 	digitalWrite(ENABLE, LOW); // pour que le enable des  drive soit à low. 
 	pinMode(tirette, INPUT_PULLUP);
@@ -132,12 +132,12 @@ void FloorCheckSuperstar(int sensor_M, int sensor_L, int sensor_R)
 void Task1code( void * pvParameters ){
 	vTaskDelay(3000);
 
-	myservo.write(0);
+	myservo.write(180);
 	while (!(digitalRead(tirette))){
 		vTaskDelay(20);
 		Serial.println("wait la tirette task 1");
 	}
-	myservo.write(0); // to be REALLY redundant
+	myservo.write(180); // to be REALLY redundant
 
 	for(;;){
 
@@ -149,8 +149,18 @@ void Task1code( void * pvParameters ){
 		}
 		
 		elapsedTime = millis() - Time1;
+		static int dance_1_move =0;
+		static int dance_2_move =0;
+		if ((elapsedTime >98000)&& (dance_1_move==0)){
+			dance_1_move =1;
+			myservo.write(180);
+		}
+		if ((elapsedTime >99000)&& (dance_2_move==0)){
+			dance_2_move =1;
+			myservo.write(0);
+		}
 
-		if ((elapsedTime >100000)){
+		if ((elapsedTime >99500)){
 			stop();
 			vTaskDelay(10);
 			digitalWrite(ENABLE, HIGH);

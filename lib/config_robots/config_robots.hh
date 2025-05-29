@@ -34,8 +34,8 @@ const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune (
 ////// chose which pami you want to use /////////////
 
 //# define PAMI_1 // la superstar
-//# define PAMI_2
-#define PAMI_3
+#define PAMI_2
+//#define PAMI_3
 //#define PAMI_4
 
 ///////// fin chose which pami you want to use /////////////
@@ -89,7 +89,7 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define COEF_ROTATE 493 // 1=493 2 =498 3=495 4=487
+#define COEF_ROTATE 502 // 1=493 2 =498 3=495 4=487
 #define COEF_STRAIGHT 1.0
 
 #define ADD_DELAY_START 5000.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
@@ -110,7 +110,7 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define COEF_ROTATE 493 // 1=493 2 =498 3=495 4=487
+#define COEF_ROTATE 490 // 1=493 2 =498 3=495 4=487
 #define COEF_STRAIGHT 1.0
 
 #define ADD_DELAY_START 3000.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
@@ -131,7 +131,7 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define COEF_ROTATE 493 // 1=493 2 =498 3=495 4=487
+#define COEF_ROTATE 503 // 1=493 2 =498 3=495 4=487
 #define COEF_STRAIGHT 1.0
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 

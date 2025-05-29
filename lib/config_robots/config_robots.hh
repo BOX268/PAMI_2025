@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-//# define TEST_MODE
+# define TEST_MODE
 //# define PRINT_DISTANCES
 # define EVITEMENT 
 
@@ -34,9 +34,9 @@ const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune (
 ////// chose which pami you want to use /////////////
 
 //# define PAMI_1 // la superstar
-#define PAMI_2
+//#define PAMI_2
 //#define PAMI_3
-//#define PAMI_4
+#define PAMI_4
 
 ///////// fin chose which pami you want to use /////////////
 
@@ -51,6 +51,9 @@ extern bool avoidance[];
 extern float rpms[];
 extern uint32_t numPoints;
 extern char equipe; // equipe bleu par default
+
+
+# define MOTOR_DECEL_BRUTAL 8000
 
 
 #ifdef PAMI_1 // la superstar

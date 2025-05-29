@@ -26,6 +26,10 @@ stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 
 void straight(float distance_){  // positive and negatif value allowed
   Serial.println("debut du straight");
+
+  stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
+  stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
+
   //stepperR.setRPM(TRANSLATION_RPM);
   //stepperL.setRPM(TRANSLATION_RPM);
   float mm = (MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / 195 ;// 200*MICROSTEPS = périmètre de la roue (diamètre = 62)* M_PI = 195 mm
@@ -70,7 +74,20 @@ void rotate (float angle){
 }
 
 void stop(){
+
+  stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
+  stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
+
   stepperR.stop(); stepperL.stop();
+}
+
+void stop_brutal()
+{
+  stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL_BRUTAL);
+  stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL_BRUTAL);
+
+  stepperL.stop();
+  stepperR.stop();
 }
 
 bool moving(){ 

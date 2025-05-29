@@ -40,6 +40,7 @@ void evitement_gauche();
 void position();
 bool moving();
 void stop();
+void stop_brutal();
 
 void SetRPM(int rpm);
 void Set_Decelerate(int decel);

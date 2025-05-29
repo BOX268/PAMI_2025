@@ -139,172 +139,18 @@ void Task1code( void * pvParameters ){
 	}
 	myservo.write(180); // to be REALLY redundant
 
-	for(;;){
-
-		static int depart = 1;
-		if (depart == 1){
-			depart ++;
-			Serial.print("debut du compte à rebourt");
-			Time1 = millis();
-		}
-		
-		elapsedTime = millis() - Time1;
-		static int dance_1_move =0;
-		static int dance_2_move =0;
-		if ((elapsedTime >98000)&& (dance_1_move==0)){
-			dance_1_move =1;
-			myservo.write(180);
-		}
-		if ((elapsedTime >99000)&& (dance_2_move==0)){
-			dance_2_move =1;
-			myservo.write(0);
-		}
-
-		if ((elapsedTime >99500)){
-			stop();
-			vTaskDelay(10);
-			digitalWrite(ENABLE, HIGH);
-			Serial.print("FIN du temps des 100sec ");
-			while(1){
-				static unsigned long elapsedTime2 = 0;
-				elapsedTime2 = millis() - Time1;
-				if((elapsedTime2 < 150000) && (elapsedTime2 >100000)){
-					vTaskDelay(1000);
-					myservo.write(0);
-					vTaskDelay(1000);
-					myservo.write(180);
-					Serial.print("pami dance ");
-					Serial.print("elapsedTime2:");
-					Serial.println(elapsedTime2);
-				}
-				else if (elapsedTime2 > 150000){ 
-					Serial.println("FIN du programme core 1 / fin du match depuis longtemps ");
-					vTaskDelay(2000);
-				}
-			}
-		}
-		#ifdef EVITEMENT
-		int sensor_M = capteur(sensorPinMidel);
-		int sensor_L = capteur(sensorPinLeft);
-		int sensor_R = capteur(sensorPinRight);
-		#endif
-
-		# ifdef PRINT_DISTANCES
-	//Serial.print(" evitement:");
-	//Serial.print(evitement);
-		Serial.print("elapsedTime:");
-		Serial.print(elapsedTime);
-		Serial.print(" equipe:");
-		Serial.print(equipe);
-		Serial.print(" R:");
-		Serial.print(sensor_R);
-		Serial.print(" M:");
-		Serial.print(abs(sensor_M));
-		Serial.print(" L:");
-		Serial.print(sensor_L);
-		//vTaskDelay(1000);
-		//stepperR.stop(); stepperL.stop();
-		Serial.print(" teta_actuelle:");
-		Serial.print(teta_actuelle);
-		//Serial.print(" stepperR:");
-		//Serial.print(stepperR.getStepsCompleted());
-		//Serial.print(" total_Steps_R:");
-		//Serial.print(total_Steps_R); 
-		Serial.print(" position x:");
-		Serial.print(x_position);
-		Serial.print(" position y:");
-		Serial.print(y_position);
-		Serial.print(" evitement:");
-		Serial.println(evitement);
-		# endif
-		
-		#if defined(PAMI_1) && defined(EVITEMENT)
-		if (!(SuperStarTime)) AvoidanceChecksSuperstar(sensor_M); // maybe this fonction will need to be remove due to the hill
-		if (SuperStarTime) FloorCheckSuperstar(sensor_M, sensor_L, sensor_R);
-		// The superstar tries to avoid the slope if this is uncommented
-		//else AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R);
-		# endif
-		#if (!defined(PAMI_1)) && defined(EVITEMENT)
-		AvoidanceChecksNormal(sensor_M, sensor_L, sensor_R);
-		# endif
-				
-	vTaskDelay(1/portTICK_PERIOD_MS);
+	while (true)
+	{
+		vTaskDelay(500 / portTICK_PERIOD_MS);
 	}
 }
 
 void Task2code( void * pvParameters ){
 	vTaskDelay(3000);
 
-	while (!(digitalRead(tirette))){
-		vTaskDelay(20);
-		Serial.println("wait la tirette task 2");
-	} 
-		
-	 //vTaskDelay(200);
-	if (!digitalRead(bouton_equipe)){
-
-		for (int i = 0; i < numPoints; i++)
-		{
-			waypoints[i].x = symetrie(waypoints[i].x);
-		}
-		x_position = symetrie(x_position);
-		teta_actuelle = teta_actuelle + 180;
-		equipe = 'J';
-	} 
-	Serial.print(" equipe_couleur :");
-	Serial.println(equipe);
-	Serial.println("wait start...");
-	vTaskDelay(GLOBAL_WAIT); 
-	Serial.println("extrat wait...");
-	vTaskDelay(ADD_DELAY_START);
-	Serial.println("end extrat wait...");
-
 	while (true)
 	{
-		Serial.println("start boucle while core 2");
-
-		stepperL.setRPM(rpms[waypointIndex]);
-		stepperR.setRPM(rpms[waypointIndex]);
-
-		if (evitement == 1){  
-			evitement_droit();
-			evitement = 0;
-		}
-		else if (evitement == 2){
-			evitement_gauche();
-			evitement = 0;
-		}
-
-		go_to(waypoints[waypointIndex].x, waypoints[waypointIndex].y);
-
-		if( (abs(x_position - waypoints[waypointIndex].x)<150) && (abs(y_position - waypoints[waypointIndex].y)<150) ){ // une fois que l'on est proche de la zone on quitte le while 
-			
-			waypointIndex ++;
-			if (waypointIndex >= numPoints) break; // we reached the end of the waypoints 
-			Serial.print("Next Waypoint, x:");
-			Serial.print(waypoints[waypointIndex].x);
-			Serial.print(" y:");
-			Serial.println(waypoints[waypointIndex].y);
-
-			
-		}
-			
-	}
-
-	Serial.println("sortie du while core 2");
-
-	#if defined(PAMI_1) && defined(EVITEMENT)
-	SuperStarTime = true;
-	MoveToEdge();
-	#endif
-
-	vTaskDelay(10);
-	digitalWrite(ENABLE, HIGH);
-
-	// prevent the loop from going on
-	while (true) {
-		Serial.println("FIN du programme du core 2");
-		vTaskDelay(2000);
+		vTaskDelay(500 / portTICK_PERIOD_MS);
 	}
 	
 }

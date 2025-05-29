@@ -37,6 +37,8 @@ void configureMotors();
 void debug_position();
 void evitement_droit();
 void evitement_gauche();
+void grand_evitement_droit();
+void grand_evitement_gauche();
 void position();
 bool moving();
 void stop();
@@ -51,6 +53,14 @@ extern float teta_actuelle;
 extern long int total_Steps_R;
 extern long int total_Steps_L;
 
+/*
+-1 : no avoidance
+0 : sensors check for avoidance
+1 : have to do an avoidance turning to the right
+2 : have to do an avoidance turning to the left
+3 : have to do an avoidance turning twice as much to the right
+4 : have to do an avoidance turning twice as much to the left
+*/
 extern int evitement;
 
 //extern float x_goal_position ;

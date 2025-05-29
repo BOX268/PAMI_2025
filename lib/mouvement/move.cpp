@@ -152,6 +152,20 @@ void evitement_gauche(){
   Serial.println("end evitement gauche ");
 }
 
+void grand_evitement_droit()
+{
+  Serial.println("start grand evitement droit");
+  rotate(140);
+  straight(150);
+}
+
+void grand_evitement_gauche()
+{
+  Serial.println("start grand evitement gauche");
+  rotate(-140);
+  straight(150);
+}
+
 void position(){
   Serial.println("start fonction position");
   int current_StepsR = stepperR.getStepsCompleted();

@@ -84,6 +84,22 @@ void AvoidanceChecksNormal(int sensor_M, int sensor_L, int sensor_R)
 			vTaskDelay(10/portTICK_PERIOD_MS);
 		}
 	}
+	else if (evitement != -1)
+	{
+		if ((sensor_L > 5 && sensor_R < 100) | (sensor_M > 5 && sensor_M < 100) | (sensor_R > 5 && sensor_R < 100))
+		{
+			stop();
+			Serial.println("extra obstacle");
+
+			if (evitement == 1) evitement = 4; // big turn to the left
+			else if (evitement == 2) evitement = 3; // big turn to the right
+			else if (evitement == 3) evitement = 2;
+			else if (evitement == 4) evitement = 1;
+
+			vTaskDelay(10/portTICK_PERIOD_MS);
+		
+		}
+	}
 }
 
 void AvoidanceChecksSuperstar(int sensor_M)
@@ -272,6 +288,16 @@ void Task2code( void * pvParameters ){
 		}
 		else if (evitement == 2){
 			evitement_gauche();
+			evitement = 0;
+		}
+		else if (evitement == 3)
+		{
+			grand_evitement_droit();
+			evitement = 0;
+		}
+		else if (evitement == 4)
+		{
+			grand_evitement_gauche();
 			evitement = 0;
 		}
 

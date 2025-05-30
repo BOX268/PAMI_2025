@@ -168,11 +168,11 @@ void Task1code( void * pvParameters ){
 			while(1){
 				static unsigned long elapsedTime2 = 0;
 				elapsedTime2 = millis() - Time1;
-				if((elapsedTime2 < 150000) && (elapsedTime2 >100000)){
-					vTaskDelay(1000);
-					myservo.write(0);
+				if((elapsedTime2 < 170000) && (elapsedTime2 >100000)){
 					vTaskDelay(1000);
 					myservo.write(180);
+					vTaskDelay(1000);
+					myservo.write(0);
 					Serial.print("pami dance ");
 					Serial.print("elapsedTime2:");
 					Serial.println(elapsedTime2);
@@ -185,10 +185,10 @@ void Task1code( void * pvParameters ){
 		}
 		#ifdef EVITEMENT
 		int sensor_M = capteur(sensorPinMidel);
-		//int sensor_L = capteur(sensorPinLeft);
-		int sensor_L = 0;
-		//int sensor_R = capteur(sensorPinRight);
-		int sensor_R = 0;
+		int sensor_L = capteur(sensorPinLeft);
+		//int sensor_L = 0;
+		int sensor_R = capteur(sensorPinRight);
+		//int sensor_R = 0;
 		#endif
 
 		# ifdef PRINT_DISTANCES

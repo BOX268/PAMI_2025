@@ -26,8 +26,6 @@ Point waypoints[] = {
     {300,1820 },
     {550,1520},
    { 950,1520},
-   
-  
 };
 
 bool avoidance[] = {false,true,false,};
@@ -55,8 +53,6 @@ float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
 uint32_t numPoints = 4;
 
 # endif
-
-
 
 #ifdef PAMI_4 
 

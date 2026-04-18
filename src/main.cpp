@@ -86,48 +86,7 @@ void AvoidanceChecksNormal(int sensor_M, int sensor_L, int sensor_R)
 	}
 }
 
-void AvoidanceChecksSuperstar(int sensor_M)
-{
-	if ((evitement == 0) && moving() && avoidance[waypointIndex])
-	{
-		if (sensor_M > 5 && sensor_M < 200)
-		{
-			stop();
-			Serial.println("obstacle Middle");
-			evitement = 2; //evitement gauche
-			vTaskDelay(10/portTICK_PERIOD_MS);
-		}
-	}
-}
 
-void FloorCheckSuperstar(int sensor_M, int sensor_L, int sensor_R)
-{
-	if ((evitement == 0) && moving())
-	{
-		if (sensor_L > SUPERSTAR_FLOOR_THRESHOLD && sensor_R > SUPERSTAR_FLOOR_THRESHOLD)
-		{
-			stop();
-			Serial.println("no floor on either side");
-			evitement = 3;
-			vTaskDelay(1/portTICK_PERIOD_MS);
-		}
-		else if (sensor_L > SUPERSTAR_FLOOR_THRESHOLD)
-		{
-			stop();
-			Serial.println("no floor on the left");
-			evitement = 1; // gauche
-			vTaskDelay(1/portTICK_PERIOD_MS);
-		}
-		else if (sensor_R > SUPERSTAR_FLOOR_THRESHOLD)
-		{
-			stop();
-			Serial.println("no floor on the left");
-			evitement = 2; // droite
-			vTaskDelay(1/portTICK_PERIOD_MS);
-		}
-			
-	}
-}
 
 void Task1code( void * pvParameters ){
 	vTaskDelay(3000);
@@ -218,13 +177,7 @@ void Task1code( void * pvParameters ){
 		Serial.println(evitement);
 		# endif
 		
-		#if defined(PAMI_1) && defined(EVITEMENT)
-		if (!(SuperStarTime)) AvoidanceChecksSuperstar(sensor_M); // maybe this fonction will need to be remove due to the hill
-		if (SuperStarTime) FloorCheckSuperstar(sensor_M, sensor_L, sensor_R);
-		// The superstar tries to avoid the slope if this is uncommented
-		//else AvoidanceChecksSuperstar(sensor_M, sensor_L, sensor_R);
-		# endif
-		#if (!defined(PAMI_1)) && defined(EVITEMENT)
+		#ifdef EVITEMENT
 		AvoidanceChecksNormal(sensor_M, sensor_L, sensor_R);
 		# endif
 				
@@ -292,11 +245,6 @@ void Task2code( void * pvParameters ){
 	}
 
 	Serial.println("sortie du while core 2");
-
-	#if defined(PAMI_1) && defined(EVITEMENT)
-	SuperStarTime = true;
-	MoveToEdge();
-	#endif
 
 	vTaskDelay(10);
 	digitalWrite(ENABLE, HIGH);

@@ -17,7 +17,7 @@ bool avoidance[] = {false,false,false,false,};
 float rpms[] = {100, 100, MOTOR_RPM_, 100};
 uint32_t numPoints = 4;
 
-# endif
+# endif 
 
 #ifdef PAMI_2 
 
@@ -33,7 +33,7 @@ float rpms[] = {MOTOR_RPM_,MOTOR_RPM_,MOTOR_RPM_};
 
 uint32_t numPoints = 3;
 
-# endif
+# endif 
 
 #ifdef PAMI_3
 

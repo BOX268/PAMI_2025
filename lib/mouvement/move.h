@@ -32,6 +32,7 @@ extern BasicStepperDriver stepperL;
 
 void straight(float distance_);
 void rotation (float angle);
+void orientation(float angle_absolue);
 void go_to(float go_x, float go_y);
 void configureMotors();
 void debug_position();

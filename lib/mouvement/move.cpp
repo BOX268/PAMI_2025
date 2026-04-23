@@ -22,15 +22,22 @@ stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 
 void straight(float distance_){  // positive and negatif value allowed
   Serial.println("debut du straight");
-  //stepperR.setRPM(TRANSLATION_RPM);
-  //stepperL.setRPM(TRANSLATION_RPM);
-  float mm = (MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / (DIAMETRE_ROUE * M_PI) ;// 200*MICROSTEPS = périmètre de la roue (diamètre = 62)* M_PI = 195 mm
-  float distance = distance_ * mm  ;
+
+  // Calculer les steps pour chaque roue séparément pour compenser les différences de diamètre
+  float steps_per_mm_R = (MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_DROITE * M_PI);
+  float steps_per_mm_L = (MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_GAUCHE * M_PI);
+
+  float steps_R = distance_ * steps_per_mm_R;
+  float steps_L = distance_ * steps_per_mm_L;
+
   Serial.print("distance à parcourir:");
   Serial.print(distance_);
-  Serial.print(" nombre de step à parcourir:");
-  Serial.println(distance);
-  controller.move(distance, distance);
+  Serial.print(" steps R:");
+  Serial.print(steps_R);
+  Serial.print(" steps L:");
+  Serial.println(steps_L);
+
+  controller.move(steps_R, steps_L);
   position();
   Serial.println("end function straight");
 }
@@ -47,7 +54,10 @@ void rotation (float angle){
   stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
 
-  float angl = angle * COEF_ROTATE / 360 ; // pourquoi diviser pas 360 ?
+  // Utiliser la moyenne des diamètres pour le calcul de rotation
+  float diametre_moyen = (DIAMETRE_ROUE_DROITE + DIAMETRE_ROUE_GAUCHE) / 2.0f;
+  float angl = (angle / 360.0f) * (ENTRE_AXE / diametre_moyen);
+
   Serial.print(" rotation_of ...:");
   Serial.println(angle);
   controller.rotate(-angl, angl);
@@ -203,17 +213,20 @@ void position(){
   total_Steps_R += current_StepsR ;
   total_Steps_L += current_StepsL ;
   float distance_x ;
-  float distance_y ; 
- 
-  //  il faut verifier que les rotation n'ont pas d'influence car on utilise que la variable "current_StepsR"
-  float distance = current_StepsR / ((MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / (DIAMETRE_ROUE * M_PI)  ); // mm
-  //Serial.print("current_StepsR");
-  //Serial.println(current_StepsR);
+  float distance_y ;
+
+  // Calculer la distance parcourue par chaque roue
+  float distance_R = current_StepsR / ((MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_DROITE * M_PI));
+  float distance_L = current_StepsL / ((MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_GAUCHE * M_PI));
+
+  // Prendre la moyenne pour plus de précision
+  float distance = (distance_R + distance_L) / 2.0f;
+
   Serial.print(" distance parcouru:");
   Serial.print(distance);
-  
+
   distance_x = distance * cos(teta_actuelle * M_PI / 180.0f); // M_PI / 180.0f pour la convertion en radian
-  distance_y = distance * sin(teta_actuelle * M_PI / 180.0f); // il y a un signe moins au debut car on conconsidère le cercle trigonométrique avec le 0 vers la cuisine, l'axe des x est correcte, mais l'axe des y est inversé par rapport au cercle trigo. 
+  distance_y = distance * sin(teta_actuelle * M_PI / 180.0f); // il y a un signe moins au debut car on conconsidère le cercle trigonométrique avec le 0 vers la cuisine, l'axe des x est correcte, mais l'axe des y est inversé par rapport au cercle trigo.
 
   Serial.print(" distance_x_ajouter:");
   Serial.print(distance_x);

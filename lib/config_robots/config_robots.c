@@ -2,7 +2,7 @@
 
 char equipe = 'B'; // équipe bleu par default
 
-#ifdef PAMI_1 // la superstar
+#ifdef PAMI_1 
 
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {

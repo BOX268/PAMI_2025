@@ -33,10 +33,13 @@ const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune (
 
 ////// chose which pami you want to use /////////////
 
-//# define PAMI_1 // la superstar
+//# define PAMI_1 
 # define PAMI_2
 //#define PAMI_3
 //#define PAMI_4
+//#define PAMI_5
+//#define PAMI_6
+
 
 ///////// fin chose which pami you want to use /////////////
 
@@ -53,7 +56,7 @@ extern uint32_t numPoints;
 extern char equipe; // equipe bleu par default
 
 
-#ifdef PAMI_1 // la superstar
+#ifdef PAMI_1 
 
 #define X_POSITION_START_ 70.0
 #define Y_POSITION_START_  1940
@@ -92,7 +95,7 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 #define COEF_ROTATE 502 // 1=493 2 =498 3=495 4=487
 #define COEF_STRAIGHT 1.0
 
-#define ADD_DELAY_START 5000.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
+#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
 const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
 # endif
 
@@ -136,6 +139,50 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
 const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
-# endif
+# endif // PAMI_4
 
-# endif
+
+#ifdef PAMI_5
+
+#define X_POSITION_START_ 70.0
+#define Y_POSITION_START_  1600
+#define TETA_POSITION_START_ 0.0
+
+#define MOTOR_RPM_ 150
+#define MOTOR_ACCEL_ 1400
+#define MOTOR_DECEL_ 3000
+//#define MOTOR_DECEL_AVOIDEMENT 5000 // freinage brust s'il y a un obstacle
+//#define MOTOR_DECEL_FINISH_ 500
+
+#define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
+
+#define COEF_ROTATE 503 // 1=493 2 =498 3=495 4=487
+#define COEF_STRAIGHT 1.0
+
+#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
+const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
+# endif // PAMI_5
+
+#ifdef PAMI_6
+
+#define X_POSITION_START_ 70.0
+#define Y_POSITION_START_  1600
+#define TETA_POSITION_START_ 0.0
+
+#define MOTOR_RPM_ 150
+#define MOTOR_ACCEL_ 1400
+#define MOTOR_DECEL_ 3000
+//#define MOTOR_DECEL_AVOIDEMENT 5000 // freinage brust s'il y a un obstacle
+//#define MOTOR_DECEL_FINISH_ 500
+
+#define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
+
+#define COEF_ROTATE 503 // 1=493 2 =498 3=495 4=487
+#define COEF_STRAIGHT 1.0
+
+#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
+const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
+# endif // PAMI_6
+
+
+# endif //CONFIG_ROBOTS

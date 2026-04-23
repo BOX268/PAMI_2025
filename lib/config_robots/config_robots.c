@@ -23,16 +23,13 @@ uint32_t numPoints = 4;
 
 // waypoints and avoidance need to have the same length
 Point waypoints[] = {
-    {300,1820 },
-    {550,1520},
-   { 950,1520},
-   
-  
+    {2800,1000},
+    {2300,1000},
+    {2300,1500},
 };
 
-bool avoidance[] = {false,true,false,};
-float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
-
+bool avoidance[] = {false,false,false};
+float rpms[] = {MOTOR_RPM_,MOTOR_RPM_,MOTOR_RPM_};
 
 uint32_t numPoints = 3;
 

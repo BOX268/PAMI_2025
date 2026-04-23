@@ -39,6 +39,9 @@ void straight(float distance_){  // positive and negatif value allowed
   Serial.println("end function straight");
 }
 
+/**
+ * @param angle the angle to rotate, in trigonometric direction, in degrees.
+ */
 void rotate (float angle){
   Serial.println("start fonction rotate");
   int sauvegarde_evitement;
@@ -48,10 +51,10 @@ void rotate (float angle){
   stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
 
-  float angl= angle * COEF_ROTATE / 360 ; // pourquoi diviser pas 360 ?
+  float angl = angle * COEF_ROTATE / 360 ; // pourquoi diviser pas 360 ?
   Serial.print(" rotation_of ...:");
   Serial.println(angle);
-  controller.rotate(angl, -angl);
+  controller.rotate(-angl, angl);
   teta_actuelle += angle;
 
   if (teta_actuelle >= 360.0f) {
@@ -89,7 +92,7 @@ void go_to(float go_x, float go_y){
   float teta_to_do = 0;
   float teta_objectif = 0;
   float to_do_x = go_x - x_position;
-  float to_do_y = -(go_y - y_position); // on rajoute un moins pour que l'axe y soit inverser. l'axe y sur le vinil de surdiabotique est inverser par rapport au cercle trigo. 
+  float to_do_y = go_y - y_position; // on rajoute un moins pour que l'axe y soit inverser. l'axe y sur le vinil de surdiabotique est inverser par rapport au cercle trigo. 
   Serial.print(" to do_y:");
   Serial.print(to_do_y);
   Serial.print(" to do_x:");
@@ -98,24 +101,24 @@ void go_to(float go_x, float go_y){
   float distance = sqrt(to_do_x*to_do_x + to_do_y*to_do_y );
   //float teta_calcule = atan(abs(to_do_y) / abs(to_do_x));
   float teta_calcule = atan2(to_do_y, to_do_x);
-  float teta_objectif_ = (teta_calcule * 180 / M_PI);
-  teta_objectif = - teta_objectif_ ; // on rajoute le - pour avoir le sens de rotation positive -->clockwise. 
+  teta_objectif = (teta_calcule * 180 / M_PI); // convert theta to degrees
+
   Serial.print(" teta_objectif:");
   Serial.print(teta_objectif);
 
   teta_to_do = teta_objectif - teta_actuelle;
 
   if(teta_to_do >= 180){
-    teta_to_do = teta_objectif - teta_actuelle - 360;
+    teta_to_do = teta_to_do - 360;
     //Serial.print(" teta_goal > 180");
   } 
 
   if (teta_to_do < -180){
-    teta_to_do = teta_objectif - teta_actuelle + 360;
+    teta_to_do = teta_to_do + 360;
   }
   Serial.print(" teta_to_do:");
   Serial.print(teta_to_do);
-  rotate(teta_to_do );
+  rotate(teta_to_do);
   //evitement = 0;
   //Serial.print("evitement: ");
   //Serial.print(evitement);
@@ -127,7 +130,7 @@ void go_to(float go_x, float go_y){
 }
 
 void debug_position(){
-  Serial.print("stepperR.getStepsCompleted() ");
+  Serial.print("stepperR.getStepsCompleted()");
   Serial.print(stepperR.getStepsCompleted());
 /* 
   total_Steps_R += stepperR.getStepsCompleted();

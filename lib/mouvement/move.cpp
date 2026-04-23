@@ -1,6 +1,5 @@
 #include "move.h"
 
-
 long int total_Steps_R = 0;
 long int total_Steps_L = 0;
 
@@ -9,9 +8,6 @@ float y_position = Y_POSITION_START;
 float teta_actuelle = TETA_POSITION_START;
 
 int evitement = 0 ;
-
-//float x_goal_position= 1850;
-//float y_goal_position= 650;
 
 BasicStepperDriver stepperR(MOTOR_STEPS, DIR_X, STEP_X);
 BasicStepperDriver stepperL(MOTOR_STEPS, DIR_Y, STEP_Y);
@@ -28,7 +24,7 @@ void straight(float distance_){  // positive and negatif value allowed
   Serial.println("debut du straight");
   //stepperR.setRPM(TRANSLATION_RPM);
   //stepperL.setRPM(TRANSLATION_RPM);
-  float mm = (MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / 195 ;// 200*MICROSTEPS = périmètre de la roue (diamètre = 62)* M_PI = 195 mm
+  float mm = (MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / (DIAMETRE_ROUE * M_PI) ;// 200*MICROSTEPS = périmètre de la roue (diamètre = 62)* M_PI = 195 mm
   float distance = distance_ * mm  ;
   Serial.print("distance à parcourir:");
   Serial.print(distance_);
@@ -40,10 +36,10 @@ void straight(float distance_){  // positive and negatif value allowed
 }
 
 /**
- * @param angle the angle to rotate, in trigonometric direction, in degrees.
+ * @param angle the angle relative, in trigonometric direction , in degrees.
  */
-void rotate (float angle){
-  Serial.println("start fonction rotate");
+void rotation (float angle){
+  Serial.println("start fonction rotation");
   int sauvegarde_evitement;
   sauvegarde_evitement = evitement ;
   evitement = -1;
@@ -69,7 +65,38 @@ void rotate (float angle){
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 
   evitement = sauvegarde_evitement ;
-  Serial.println("end fonction rotate");
+  Serial.println("end fonction rotation");
+}
+
+/**
+ * @param angle_absolue the absolute angle to reach, in trigonometric direction, in degrees (0-360).
+ * Rotates the robot to face the specified absolute angle relative to the field coordinate system.
+ */
+void orientation(float angle_absolue){
+  Serial.println("start fonction orientation (absolute)");
+  Serial.print(" angle_absolue demandé:");
+  Serial.println(angle_absolue);
+  Serial.print(" teta_actuelle:");
+  Serial.println(teta_actuelle);
+  
+  // Calculer l'angle relatif à tourner
+  float angle_relatif = angle_absolue - teta_actuelle;
+  
+  // Normaliser l'angle pour prendre le chemin le plus court
+  if (angle_relatif >= 180.0f){
+    angle_relatif = angle_relatif - 360.0f;
+  } 
+  else if (angle_relatif < -180.0f){
+    angle_relatif = angle_relatif + 360.0f;
+  }
+  
+  Serial.print(" angle_relatif à faire:");
+  Serial.println(angle_relatif);
+  
+  // Effectuer la rotation relative
+  rotation(angle_relatif);
+  
+  Serial.println("end fonction orientation (absolute)");
 }
 
 void stop(){
@@ -118,7 +145,7 @@ void go_to(float go_x, float go_y){
   }
   Serial.print(" teta_to_do:");
   Serial.print(teta_to_do);
-  rotate(teta_to_do);
+  rotation(teta_to_do);
   //evitement = 0;
   //Serial.print("evitement: ");
   //Serial.print(evitement);
@@ -143,14 +170,14 @@ void debug_position(){
 
 void evitement_droit(){
   Serial.println("start evitement droit");
-  rotate(70);
+  rotation(70);
   straight(150);
   Serial.println("end evitement droit ");
 }
 
 void evitement_gauche(){
   Serial.println("start evitement gauche");
-  rotate(-70);
+  rotation(-70);
   straight(150);
   Serial.println("end evitement gauche ");
 }
@@ -158,14 +185,14 @@ void evitement_gauche(){
 void grand_evitement_droit()
 {
   Serial.println("start grand evitement droit");
-  rotate(140);
+  rotation(140);
   straight(150);
 }
 
 void grand_evitement_gauche()
 {
   Serial.println("start grand evitement gauche");
-  rotate(-140);
+  rotation(-140);
   straight(150);
 }
 
@@ -179,7 +206,7 @@ void position(){
   float distance_y ; 
  
   //  il faut verifier que les rotation n'ont pas d'influence car on utilise que la variable "current_StepsR"
-  float distance = current_StepsR / ((MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / 195); // mm
+  float distance = current_StepsR / ((MOTOR_STEPS * MICROSTEPS * COEF_STRAIGHT) / (DIAMETRE_ROUE * M_PI)  ); // mm
   //Serial.print("current_StepsR");
   //Serial.println(current_StepsR);
   Serial.print(" distance parcouru:");

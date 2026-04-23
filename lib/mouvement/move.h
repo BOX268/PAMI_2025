@@ -31,7 +31,7 @@ extern BasicStepperDriver stepperL;
 //extern SyncDriver controller(stepperR, stepperL);
 
 void straight(float distance_);
-void rotate (float angle);
+void rotation (float angle);
 void go_to(float go_x, float go_y);
 void configureMotors();
 void debug_position();

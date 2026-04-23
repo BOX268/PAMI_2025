@@ -107,12 +107,15 @@ void AvoidanceChecksNormal(int sensor_M, int sensor_L, int sensor_R)
 void Task1code( void * pvParameters ){
 	vTaskDelay(3000);
 
-	myservo.write(180);
+	//myservo.write(180);
+
+	/* 
 	while (!(digitalRead(tirette))){
 		vTaskDelay(20);
 		Serial.println("wait la tirette task 1");
 	}
 	myservo.write(180); // to be REALLY redundant
+	*/
 
 	for(;;){
 
@@ -123,41 +126,7 @@ void Task1code( void * pvParameters ){
 			Time1 = millis();
 		}
 		
-		elapsedTime = millis() - Time1;
-		static int dance_1_move =0;
-		static int dance_2_move =0;
-		if ((elapsedTime >98000)&& (dance_1_move==0)){
-			dance_1_move =1;
-			myservo.write(180);
-		}
-		if ((elapsedTime >99000)&& (dance_2_move==0)){
-			dance_2_move =1;
-			myservo.write(0);
-		}
 
-		if ((elapsedTime >99500)){
-			stop();
-			vTaskDelay(10);
-			digitalWrite(ENABLE, HIGH);
-			Serial.print("FIN du temps des 100sec ");
-			while(1){
-				static unsigned long elapsedTime2 = 0;
-				elapsedTime2 = millis() - Time1;
-				if((elapsedTime2 < 150000) && (elapsedTime2 >100000)){
-					vTaskDelay(1000);
-					myservo.write(0);
-					vTaskDelay(1000);
-					myservo.write(180);
-					Serial.print("pami dance ");
-					Serial.print("elapsedTime2:");
-					Serial.println(elapsedTime2);
-				}
-				else if (elapsedTime2 > 150000){ 
-					Serial.println("FIN du programme core 1 / fin du match depuis longtemps ");
-					vTaskDelay(2000);
-				}
-			}
-		}
 		#ifdef EVITEMENT
 		int sensor_M = capteur(sensorPinMidel);
 		int sensor_L = capteur(sensorPinLeft);
@@ -203,13 +172,34 @@ void Task1code( void * pvParameters ){
 
 void Task2code( void * pvParameters ){
 	vTaskDelay(3000);
-
+	/* 
 	while (!(digitalRead(tirette))){
 		vTaskDelay(20);
 		Serial.println("wait la tirette task 2");
 	} 
-		
-	 //vTaskDelay(200);
+	*/ 
+	/////////
+	//// DEBUT DU CODE POUR FAIRE L'ODOMETRIE
+	////////
+
+	/// on fait trouner le robot sur lui meme et
+	// on corrige COEF_ROTATE situer dans le lib/config_robots/config_robots.h 
+
+	//rotation(360*5);
+
+	// on fait avancer le robot et il y a 2 parametre à corriger 
+	// le diametre de la roue: DIAMETRE_ROUE situer dans le lib/config_robots/config_robots.h 
+	// le parametre DIAMETRE_ROUE affecte tous les pamis
+	// pour corriger chaque pamis individuelment il y a le parametre COEF_STRAIGHT  situer dans le lib/config_robots/config_robots.h 
+
+	straight (1000); //1000 mm 
+
+
+	/////
+	// DEBUT DU CODE POUR FAIRE DES GO_TO
+	////
+
+	/* 
 	if (!digitalRead(bouton_equipe)){
 
 		for (int i = 0; i < numPoints; i++)
@@ -227,32 +217,13 @@ void Task2code( void * pvParameters ){
 	Serial.println("extrat wait...");
 	vTaskDelay(ADD_DELAY_START);
 	Serial.println("end extrat wait...");
-
+	
 	while (true)
 	{
 		Serial.println("start boucle while core 2");
 
 		stepperL.setRPM(rpms[waypointIndex]);
 		stepperR.setRPM(rpms[waypointIndex]);
-
-		if (evitement == 1){  
-			evitement_droit();
-			evitement = 0;
-		}
-		else if (evitement == 2){
-			evitement_gauche();
-			evitement = 0;
-		}
-		else if (evitement == 3)
-		{
-			grand_evitement_droit();
-			evitement = 0;
-		}
-		else if (evitement == 4)
-		{
-			grand_evitement_gauche();
-			evitement = 0;
-		}
 
 		go_to(waypoints[waypointIndex].x, waypoints[waypointIndex].y);
 
@@ -264,20 +235,15 @@ void Task2code( void * pvParameters ){
 			Serial.print(waypoints[waypointIndex].x);
 			Serial.print(" y:");
 			Serial.println(waypoints[waypointIndex].y);
-
-			
 		}
 			
 	}
-
-	Serial.println("sortie du while core 2");
-
+	*/
 	vTaskDelay(10);
-	digitalWrite(ENABLE, HIGH);
-
 	// prevent the loop from going on
 	while (true) {
 		Serial.println("FIN du programme du core 2");
+		//digitalWrite(ENABLE, HIGH);
 		vTaskDelay(2000);
 	}
 	

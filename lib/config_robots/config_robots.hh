@@ -55,6 +55,8 @@ extern float rpms[];
 extern uint32_t numPoints;
 extern char equipe; // equipe bleu par default
 
+#define DIAMETRE_ROUE 61
+
 
 #ifdef PAMI_1 
 

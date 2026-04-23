@@ -24,11 +24,11 @@
              break;
          }
          if (evitement == 1){
-            rotate(-3); 
+            rotation(-3); 
             last_evitement = -2;
          } 
          if (evitement == 2) { 
-            rotate(3);
+            rotation(3);
             last_evitement = 2;
          }
          if (evitement == 3) {  // floor no more detected
@@ -46,8 +46,8 @@
     }
  
     stop();
-    Serial.println("rotate -1 before edge");
-    rotate(-1);
+    Serial.println("rotation -1 before edge");
+    rotation(-1);
     Serial.println("TRANSLATION_DISTANCE_AFTER_EDGE");
     straight(TRANSLATION_DISTANCE_AFTER_EDGE);
 

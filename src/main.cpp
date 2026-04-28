@@ -172,12 +172,12 @@ void Task1code( void * pvParameters ){
 
 void Task2code( void * pvParameters ){
 	vTaskDelay(3000);
-	/* 
+	
 	while (!(digitalRead(tirette))){
 		vTaskDelay(20);
 		Serial.println("wait la tirette task 2");
 	} 
-	*/ 
+	
 	/////////
 	//// DEBUT DU CODE POUR FAIRE L'ODOMETRIE
 	////////
@@ -185,21 +185,21 @@ void Task2code( void * pvParameters ){
 	/// on fait trouner le robot sur lui meme et
 	// on corrige COEF_ROTATE situer dans le lib/config_robots/config_robots.h 
 
-	//rotation(360*5);
+	//rotation(360*10);
 
 	// on fait avancer le robot et il y a 2 parametre à corriger 
 	// le diametre de la roue: DIAMETRE_ROUE situer dans le lib/config_robots/config_robots.h 
 	// le parametre DIAMETRE_ROUE affecte tous les pamis
 	// pour corriger chaque pamis individuelment il y a le parametre COEF_STRAIGHT  situer dans le lib/config_robots/config_robots.h 
 
-	straight (1000); //1000 mm 
+	//straight (500); //1000 mm 
 
 
 	/////
 	// DEBUT DU CODE POUR FAIRE DES GO_TO
 	////
 
-	/* 
+	
 	if (!digitalRead(bouton_equipe)){
 
 		for (int i = 0; i < numPoints; i++)
@@ -238,13 +238,13 @@ void Task2code( void * pvParameters ){
 		}
 			
 	}
-	*/
+	
 	vTaskDelay(10);
 	// prevent the loop from going on
 	while (true) {
 		Serial.println("FIN du programme du core 2");
 		//digitalWrite(ENABLE, HIGH);
-		vTaskDelay(2000);
+		vTaskDelay(500);
 	}
 	
 }

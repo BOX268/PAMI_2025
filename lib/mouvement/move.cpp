@@ -23,12 +23,11 @@ stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL, MOTOR_DECEL);
 void straight(float distance_){  // positive and negatif value allowed
   Serial.println("debut du straight");
 
-  // Calculer les steps pour chaque roue séparément pour compenser les différences de diamètre
-  float steps_per_mm_R = (MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_DROITE * M_PI);
-  float steps_per_mm_L = (MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_GAUCHE * M_PI);
+  // COEF_DROIT biaise les pas de la roue droite pour compenser l'asymétrie physique des roues
+  float steps_per_mm = (MOTOR_STEPS * MICROSTEPS) / (DIAMETRE_ROUE * M_PI);
 
-  float steps_R = distance_ * steps_per_mm_R;
-  float steps_L = distance_ * steps_per_mm_L;
+  float steps_R = distance_ * steps_per_mm * COEF_DROIT;
+  float steps_L = distance_ * steps_per_mm;
 
   Serial.print("distance à parcourir:");
   Serial.print(distance_);
@@ -54,9 +53,7 @@ void rotation (float angle){
   stepperR.setSpeedProfile(stepperR.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
   stepperL.setSpeedProfile(stepperL.LINEAR_SPEED, MOTOR_ACCEL_DECEL_ROTATE, MOTOR_ACCEL_DECEL_ROTATE);
 
-  // Utiliser la moyenne des diamètres pour le calcul de rotation
-  float diametre_moyen = (DIAMETRE_ROUE_DROITE + DIAMETRE_ROUE_GAUCHE) / 2.0f;
-  float angl = (angle / 360.0f) * (ENTRE_AXE / diametre_moyen);
+  float angl = angle  * (ENTRE_AXE / DIAMETRE_ROUE);
 
   Serial.print(" rotation_of ...:");
   Serial.println(angle);
@@ -215,9 +212,10 @@ void position(){
   float distance_x ;
   float distance_y ;
 
-  // Calculer la distance parcourue par chaque roue
-  float distance_R = current_StepsR / ((MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_DROITE * M_PI));
-  float distance_L = current_StepsL / ((MOTOR_STEPS * MICROSTEPS ) / (DIAMETRE_ROUE_GAUCHE * M_PI));
+  // La roue droite a un diamètre effectif différent (compensation COEF_DROIT) -> on divise sa distance
+  float steps_per_mm = (MOTOR_STEPS * MICROSTEPS) / (DIAMETRE_ROUE * M_PI);
+  float distance_R = (current_StepsR / steps_per_mm) / COEF_DROIT;
+  float distance_L = current_StepsL / steps_per_mm;
 
   // Prendre la moyenne pour plus de précision
   float distance = (distance_R + distance_L) / 2.0f;

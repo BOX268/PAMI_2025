@@ -8,7 +8,7 @@
 //# define EVITEMENT 
 
 # ifdef TEST_MODE
-# define GLOBAL_WAIT 2000
+# define GLOBAL_WAIT 10000
 # endif
 # ifndef TEST_MODE
 # define GLOBAL_WAIT 85000
@@ -70,34 +70,34 @@ extern char equipe; // equipe bleu par default
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE_DROITE 61.0
-#define DIAMETRE_ROUE_GAUCHE 61.0
+#define DIAMETRE_ROUE 61.0
+#define COEF_DROIT 1.0
 #define ENTRE_AXE 95.8
 
-#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
+#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.
 const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
 
 # endif
 
-#ifdef PAMI_2 
+#ifdef PAMI_2
 
-#define X_POSITION_START_ 2800
-#define Y_POSITION_START_  1800
-#define TETA_POSITION_START_ -90
+#define X_POSITION_START_ 2950
+#define Y_POSITION_START_  1880
+#define TETA_POSITION_START_ 180.0
 
-#define MOTOR_RPM_ 100
-#define MOTOR_ACCEL_ 1400
-#define MOTOR_DECEL_ 3500
+#define MOTOR_RPM_ 75
+#define MOTOR_ACCEL_ 500
+#define MOTOR_DECEL_ 500
 //#define MOTOR_DECEL_AVOIDEMENT 5000 // freinage brust s'il y a un obstacle
 //#define MOTOR_DECEL_FINISH_ 500
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE_DROITE 61.0
-#define DIAMETRE_ROUE_GAUCHE 61.0
-#define ENTRE_AXE 95.2
+#define DIAMETRE_ROUE 63.0
+#define COEF_DROIT 0.993
+#define ENTRE_AXE 83.9  
 
-#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
+#define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.
 const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
 # endif
 
@@ -115,8 +115,8 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE_DROITE 61.0
-#define DIAMETRE_ROUE_GAUCHE 61.0
+#define DIAMETRE_ROUE 61.0
+#define COEF_DROIT 1.0
 #define ENTRE_AXE 95.2
 
 #define ADD_DELAY_START 3000.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time. 
@@ -137,8 +137,8 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE_DROITE 61.0
-#define DIAMETRE_ROUE_GAUCHE 61.0
+#define DIAMETRE_ROUE 61.0
+#define COEF_DROIT 1.0
 #define ENTRE_AXE 97.8
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.
@@ -160,8 +160,8 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE_DROITE 61.0
-#define DIAMETRE_ROUE_GAUCHE 61.0
+#define DIAMETRE_ROUE 61.0
+#define COEF_DROIT 1.0
 #define ENTRE_AXE 97.8
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.
@@ -182,8 +182,8 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE_DROITE 61.0
-#define DIAMETRE_ROUE_GAUCHE 61.0
+#define DIAMETRE_ROUE 61.0
+#define COEF_DROIT 1.0
 #define ENTRE_AXE 97.8
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.

@@ -15,6 +15,7 @@ Point waypoints[] = {
 
 bool avoidance[] = {false,false,false,false,};
 float rpms[] = {100, 100, MOTOR_RPM_, 100};
+float delays_ms = {0, 0, 0, 0};
 uint32_t numPoints = 4;
 
 # endif
@@ -30,6 +31,7 @@ Point waypoints[] = {
 
 bool avoidance[] = {false,false,false};
 float rpms[] = {MOTOR_RPM_,MOTOR_RPM_,MOTOR_RPM_};
+float delays_ms = {0, 0, 0, 0};
 
 uint32_t numPoints = 3;
 
@@ -48,6 +50,7 @@ Point waypoints[] = {
 
 bool avoidance[] = {false,true,true,true};
 float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
+float delays_ms = {0, 0, 0, 0};
 
 uint32_t numPoints = 4;
 
@@ -68,6 +71,7 @@ Point waypoints[] = {
 
 bool avoidance[] = {false,true,true,true};
 float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
+float delays_ms = {0, 0, 0, 0};
 uint32_t numPoints = 4;
 
 # endif

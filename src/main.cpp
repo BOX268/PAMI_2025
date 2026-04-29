@@ -258,6 +258,7 @@ void Task2code( void * pvParameters ){
 
 		if( (abs(x_position - waypoints[waypointIndex].x)<150) && (abs(y_position - waypoints[waypointIndex].y)<150) ){ // une fois que l'on est proche de la zone on quitte le while 
 			
+			vTaskDelay(delays_ms[waypointIndex]);
 			waypointIndex ++;
 			if (waypointIndex >= numPoints) break; // we reached the end of the waypoints 
 			Serial.print("Next Waypoint, x:");

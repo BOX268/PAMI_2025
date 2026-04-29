@@ -51,6 +51,7 @@ typedef struct Point {
 
 extern Point waypoints[];
 extern bool avoidance[];
+extern float delays_ms[];
 extern float rpms[];
 extern uint32_t numPoints;
 extern char equipe; // equipe bleu par default

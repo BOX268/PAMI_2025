@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-# define TEST_MODE
+//# define TEST_MODE
 //# define PRINT_DISTANCES
 //# define EVITEMENT 
 
@@ -33,8 +33,8 @@ const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune (
 
 ////// chose which pami you want to use /////////////
 
-//# define PAMI_1 
-# define PAMI_2
+# define PAMI_1 
+//#define PAMI_2
 //#define PAMI_3
 //#define PAMI_4
 //#define PAMI_5
@@ -58,21 +58,21 @@ extern char equipe; // equipe bleu par default
 
 #ifdef PAMI_1 
 
-#define X_POSITION_START_ 70.0
-#define Y_POSITION_START_  1940
-#define TETA_POSITION_START_ 0.0
+#define X_POSITION_START_ 2500.0
+#define Y_POSITION_START_  1600.0
+#define TETA_POSITION_START_ -90.0
 
-#define MOTOR_RPM_ 50
-#define MOTOR_ACCEL_ 1400
-#define MOTOR_DECEL_ 3000
+#define MOTOR_RPM_ 66
+#define MOTOR_ACCEL_ 500
+#define MOTOR_DECEL_ 500
 //#define MOTOR_DECEL_AVOIDEMENT 5000 // freinage brust s'il y a un obstacle
 //#define MOTOR_DECEL_FINISH_ 500
 
 #define MOTOR_ACCEL_DECEL_ROTATE_ 700 // 700
 
-#define DIAMETRE_ROUE 61.0
-#define COEF_DROIT 1.0
-#define ENTRE_AXE 95.8
+#define DIAMETRE_ROUE 63.75 //distance (2)
+#define COEF_DROIT 1.0 //droit(1) diminuer - plus a gauche, augmenter - plus a droite 
+#define ENTRE_AXE 89.2 //rotation (3)
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.
 const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered
@@ -95,7 +95,7 @@ const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider
 
 #define DIAMETRE_ROUE 63.0
 #define COEF_DROIT 0.993
-#define ENTRE_AXE 83.9  
+#define ENTRE_AXE 85.0  
 
 #define ADD_DELAY_START 0.0 // after the 85sec we add a extra delay to avoid all the pami to start at the same time.
 const int SUPERSTAR_FLOOR_THRESHOLD = 75; //The distance above which we consider there is no floor  // True when the superstar is doing the superstar-specific movements, used to change how avoidances are triggered

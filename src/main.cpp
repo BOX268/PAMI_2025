@@ -165,7 +165,22 @@ void Task1code( void * pvParameters ){
 		#ifdef EVITEMENT
 		AvoidanceChecksNormal(sensor_M, sensor_L, sensor_R);
 		# endif
-				
+
+		elapsedTime = millis() - Time1;
+
+		// fin des 15s : on stoppe les moteurs et on fait danser le pami
+		if (elapsedTime > GLOBAL_WAIT + 14500){
+			stop();
+			digitalWrite(ENABLE, HIGH);
+			Serial.println("FIN du temps des 15sec");
+			while(1){
+				vTaskDelay(1000);
+				myservo.write(0);
+				vTaskDelay(1000);
+				myservo.write(180);
+			}
+		}
+
 	vTaskDelay(1/portTICK_PERIOD_MS);
 	}
 }
@@ -192,7 +207,14 @@ void Task2code( void * pvParameters ){
 	// le parametre DIAMETRE_ROUE affecte tous les pamis
 	// pour corriger chaque pamis individuelment il y a le parametre COEF_STRAIGHT  situer dans le lib/config_robots/config_robots.h 
 
-	//straight (500); //1000 mm 
+	//straight (1000); //1000 mm
+	//straight (-1000); // reculer de 1000 mm
+
+	/*for(int i = 0; i < 5; i++) {  // 5 allers-retours
+    straight(1000);   // avance de 1000 mm
+	delay(5000); // pause de 1 seconde
+    straight(-1000);  // recule de 1000 mm
+}*/
 
 
 	/////
@@ -246,7 +268,9 @@ void Task2code( void * pvParameters ){
 		//digitalWrite(ENABLE, HIGH);
 		vTaskDelay(500);
 	}
+
 	
+		
 }
 
 

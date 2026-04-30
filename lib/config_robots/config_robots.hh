@@ -35,10 +35,10 @@ const uint8_t bouton_equipe = 10; // D10 low = blue vers le haut, hight= jaune (
 
 //# define PAMI_1 
 //#define PAMI_2
-#define PAMI_3
+//#define PAMI_3
 //#define PAMI_4
 //#define PAMI_5
-//#define PAMI_6
+#define PAMI_6
 
 
 ///////// fin chose which pami you want to use /////////////

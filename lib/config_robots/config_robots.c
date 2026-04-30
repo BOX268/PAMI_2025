@@ -74,3 +74,37 @@ float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
 uint32_t numPoints = 4;
 
 # endif
+
+#ifdef PAMI_5
+
+// waypoints and avoidance need to have the same length
+Point waypoints[] = {
+    {500,1600 },
+    {650,1170},
+   { 1840,1170},
+    {1860,1350},
+  
+};
+
+bool avoidance[] = {false,true,true,true};
+float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
+uint32_t numPoints = 4;
+
+# endif
+
+#ifdef PAMI_6
+
+// waypoints and avoidance need to have the same length
+Point waypoints[] = {
+    {500,1600 },
+    {650,1170},
+   { 1840,1170},
+    {1860,1350},
+  
+};
+
+bool avoidance[] = {false,true,true,true};
+float rpms[] = {MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_, MOTOR_RPM_};
+uint32_t numPoints = 4;
+
+# endif
